@@ -83,19 +83,16 @@
 
 
 
-<meta name="description" content="拉格朗日乘子法和KKT条件 （一）关于拉格朗日乘子法 首先来了解拉格朗日乘子法，那么为什么需要拉格朗日乘子法？记住，有拉格朗日乘子法的地方，必然是一个组合优化问题。那么带约束的优化问题很好说，就比如说下面这个： \[\begin{aligned} min &amp;amp; \quad f = 2x_1^2+3x_2^2+7x_3^2 \\ s.t. &amp;amp; \quad 2x_1+x_2 = 1 \\">
 <meta property="og:type" content="article">
 <meta property="og:title" content="拉格朗日乘子法和KKT条件">
 <meta property="og:url" content="https://liulinyun.github.io/2018/03/29/拉格朗日乘子法和KKT条件/index.html">
-<meta property="og:site_name" content="LiuLin的学习笔记">
-<meta property="og:description" content="拉格朗日乘子法和KKT条件 （一）关于拉格朗日乘子法 首先来了解拉格朗日乘子法，那么为什么需要拉格朗日乘子法？记住，有拉格朗日乘子法的地方，必然是一个组合优化问题。那么带约束的优化问题很好说，就比如说下面这个： \[\begin{aligned} min &amp;amp; \quad f = 2x_1^2+3x_2^2+7x_3^2 \\ s.t. &amp;amp; \quad 2x_1+x_2 = 1 \\">
+<meta property="og:site_name" content="流粼的学习笔记">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://liulinyun.github.io/2018/03/29/拉格朗日乘子法和KKT条件/拉格朗日乘子法和KKT条件_图_1.png">
 <meta property="og:image" content="https://liulinyun.github.io/2018/03/29/拉格朗日乘子法和KKT条件/拉格朗日乘子法和KKT条件_图_2.png">
-<meta property="og:updated_time" content="2018-03-29T09:03:16.663Z">
+<meta property="og:updated_time" content="2018-03-29T10:50:40.237Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="拉格朗日乘子法和KKT条件">
-<meta name="twitter:description" content="拉格朗日乘子法和KKT条件 （一）关于拉格朗日乘子法 首先来了解拉格朗日乘子法，那么为什么需要拉格朗日乘子法？记住，有拉格朗日乘子法的地方，必然是一个组合优化问题。那么带约束的优化问题很好说，就比如说下面这个： \[\begin{aligned} min &amp;amp; \quad f = 2x_1^2+3x_2^2+7x_3^2 \\ s.t. &amp;amp; \quad 2x_1+x_2 = 1 \\">
 <meta name="twitter:image" content="https://liulinyun.github.io/2018/03/29/拉格朗日乘子法和KKT条件/拉格朗日乘子法和KKT条件_图_1.png">
 
 
@@ -132,7 +129,7 @@
 
 
 
-  <title>拉格朗日乘子法和KKT条件 | LiuLin的学习笔记</title>
+  <title>拉格朗日乘子法和KKT条件 | 流粼的学习笔记</title>
   
 
 
@@ -162,7 +159,7 @@
     <div class="custom-logo-site-title">
       <a href="/"  class="brand" rel="start">
         <span class="logo-line-before"><i></i></span>
-        <span class="site-title">LiuLin的学习笔记</span>
+        <span class="site-title">流粼的学习笔记</span>
         <span class="logo-line-after"><i></i></span>
       </a>
     </div>
@@ -244,11 +241,11 @@
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="流粼">
       <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="image" content="http://www.sfs-cn.com/node3/node924/node27495/node27496/images/00236093.jpg">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="LiuLin的学习笔记">
+      <meta itemprop="name" content="流粼的学习笔记">
     </span>
 
     
@@ -306,7 +303,8 @@
       
 
       
-        <h1 id="拉格朗日乘子法和kkt条件">拉格朗日乘子法和KKT条件</h1>
+        <p id="section"><a id="more"></a></p>
+<h1 id="拉格朗日乘子法和kkt条件">拉格朗日乘子法和KKT条件</h1>
 <h2 id="一关于拉格朗日乘子法">（一）关于拉格朗日乘子法</h2>
 <p>首先来了解拉格朗日乘子法，那么为什么需要拉格朗日乘子法？记住，有拉格朗日乘子法的地方，必然是一个组合优化问题。那么带约束的优化问题很好说，就比如说下面这个： <span class="math display">\[\begin{aligned}
 min &amp; \quad f = 2x_1^2+3x_2^2+7x_3^2 \\
@@ -452,6 +450,10 @@ g_i(x) \leq 0 \quad \text{不等式约束}\\
       <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="http://www.sfs-cn.com/node3/node924/node27495/node27496/images/00236093.jpg"
+                alt="流粼" />
             
               <p class="site-author-name" itemprop="name">流粼</p>
               <p class="site-description motion-element" itemprop="description">学习笔记、读书笔记、生活感悟</p>

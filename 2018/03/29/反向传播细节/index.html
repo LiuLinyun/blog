@@ -83,21 +83,18 @@
 
 
 
-<meta name="description" content="反向传播细节 反向传播和梯度下降概念辨析 当我们使用前馈神经网络接收输入 \(\boldsymbol x\) 并产生输出 \(\boldsymbol {\hat y}\) 时，信息通过网络向前流动。输入 \(\boldsymbol x\) 提供初始信息，然后传播到每一层的隐层单元，最终产生输出 \(\boldsymbol {\hat y}\)。这称之为 前向传播。在训练过程中，前向传播可以持续向前">
 <meta property="og:type" content="article">
 <meta property="og:title" content="反向传播细节">
 <meta property="og:url" content="https://liulinyun.github.io/2018/03/29/反向传播细节/index.html">
-<meta property="og:site_name" content="LiuLin的学习笔记">
-<meta property="og:description" content="反向传播细节 反向传播和梯度下降概念辨析 当我们使用前馈神经网络接收输入 \(\boldsymbol x\) 并产生输出 \(\boldsymbol {\hat y}\) 时，信息通过网络向前流动。输入 \(\boldsymbol x\) 提供初始信息，然后传播到每一层的隐层单元，最终产生输出 \(\boldsymbol {\hat y}\)。这称之为 前向传播。在训练过程中，前向传播可以持续向前">
+<meta property="og:site_name" content="流粼的学习笔记">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://liulinyun.github.io/2018/03/29/反向传播细节/计算图.png">
 <meta property="og:image" content="https://liulinyun.github.io/2018/03/29/反向传播细节/示例神经网络.jpg">
 <meta property="og:image" content="https://liulinyun.github.io/2018/03/29/反向传播细节/示例神经网络计算图.jpg">
 <meta property="og:image" content="https://liulinyun.github.io/2018/03/29/反向传播细节/梯度求解示例.jpg">
-<meta property="og:updated_time" content="2018-03-29T08:14:36.198Z">
+<meta property="og:updated_time" content="2018-03-29T10:50:29.685Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="反向传播细节">
-<meta name="twitter:description" content="反向传播细节 反向传播和梯度下降概念辨析 当我们使用前馈神经网络接收输入 \(\boldsymbol x\) 并产生输出 \(\boldsymbol {\hat y}\) 时，信息通过网络向前流动。输入 \(\boldsymbol x\) 提供初始信息，然后传播到每一层的隐层单元，最终产生输出 \(\boldsymbol {\hat y}\)。这称之为 前向传播。在训练过程中，前向传播可以持续向前">
 <meta name="twitter:image" content="https://liulinyun.github.io/2018/03/29/反向传播细节/计算图.png">
 
 
@@ -134,7 +131,7 @@
 
 
 
-  <title>反向传播细节 | LiuLin的学习笔记</title>
+  <title>反向传播细节 | 流粼的学习笔记</title>
   
 
 
@@ -164,7 +161,7 @@
     <div class="custom-logo-site-title">
       <a href="/"  class="brand" rel="start">
         <span class="logo-line-before"><i></i></span>
-        <span class="site-title">LiuLin的学习笔记</span>
+        <span class="site-title">流粼的学习笔记</span>
         <span class="logo-line-after"><i></i></span>
       </a>
     </div>
@@ -246,11 +243,11 @@
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="流粼">
       <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="image" content="http://www.sfs-cn.com/node3/node924/node27495/node27496/images/00236093.jpg">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="LiuLin的学习笔记">
+      <meta itemprop="name" content="流粼的学习笔记">
     </span>
 
     
@@ -308,7 +305,8 @@
       
 
       
-        <h1 id="反向传播细节">反向传播细节</h1>
+        <p id="section"><a id="more"></a></p>
+<h1 id="反向传播细节">反向传播细节</h1>
 <h2 id="反向传播和梯度下降概念辨析">反向传播和梯度下降概念辨析</h2>
 <p>当我们使用前馈神经网络接收输入 <span class="math inline">\(\boldsymbol x\)</span> 并产生输出 <span class="math inline">\(\boldsymbol {\hat y}\)</span> 时，信息通过网络向前流动。输入 <span class="math inline">\(\boldsymbol x\)</span> 提供初始信息，然后传播到每一层的隐层单元，最终产生输出 <span class="math inline">\(\boldsymbol {\hat y}\)</span>。这称之为 <strong>前向传播</strong>。在训练过程中，前向传播可以持续向前知道它产生一个 <strong>标量代价函数</strong> <span class="math inline">\(J(\boldsymbol \theta)\)</span>。<strong>反向传播</strong> 算法，允许来自代价函数的信息通过网络向后流动，以便计算梯度。</p>
 <p>反向传播这个术语经常被误解为用于多层神经网络的整个学习算法。实际上，<strong>反向传播仅指用于计算梯度的方法，而另一种算法，例如随机梯度下降，使用该梯度来进行学习</strong>。此外，反向传播经常被误解为仅适用于多层神经网络，但是 <strong>原则上反向传播可以计算任何函数的导数（可导）</strong> （对于一些函数，正确的响应是报告函数的导数是未定义的）。</p>
@@ -479,6 +477,10 @@ x_3^{(1)} &amp; x_3^{(2)} &amp; x_3^{(3)} &amp; x_3^{(4)}
       <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="http://www.sfs-cn.com/node3/node924/node27495/node27496/images/00236093.jpg"
+                alt="流粼" />
             
               <p class="site-author-name" itemprop="name">流粼</p>
               <p class="site-description motion-element" itemprop="description">学习笔记、读书笔记、生活感悟</p>

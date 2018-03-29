@@ -83,19 +83,16 @@
 
 
 
-<meta name="description" content="第六章 支持向量机 6.1 间隔与支持向量 给定训练样本集 \(D=\lbrace (\boldsymbol x_1,y_1),(\boldsymbol x_2,y_2), \dots ,(\boldsymbol x_m,y_m) \rbrace, y_i\in\lbrace -1, +1 \rbrace\) , 分类学习最基本的想法就是训练集 \(D\) 在样本空间中找到一个划分超平面，将不同类">
 <meta property="og:type" content="article">
 <meta property="og:title" content="支持向量机">
 <meta property="og:url" content="https://liulinyun.github.io/2018/03/29/支持向量机/index.html">
-<meta property="og:site_name" content="LiuLin的学习笔记">
-<meta property="og:description" content="第六章 支持向量机 6.1 间隔与支持向量 给定训练样本集 \(D=\lbrace (\boldsymbol x_1,y_1),(\boldsymbol x_2,y_2), \dots ,(\boldsymbol x_m,y_m) \rbrace, y_i\in\lbrace -1, +1 \rbrace\) , 分类学习最基本的想法就是训练集 \(D\) 在样本空间中找到一个划分超平面，将不同类">
+<meta property="og:site_name" content="流粼的学习笔记">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://liulinyun.github.io/2018/03/29/支持向量机/支持向量机_图6_1.png">
 <meta property="og:image" content="https://liulinyun.github.io/2018/03/29/支持向量机/支持向量机_图6_2.jpg">
-<meta property="og:updated_time" content="2018-03-29T09:09:31.730Z">
+<meta property="og:updated_time" content="2018-03-29T10:50:48.181Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="支持向量机">
-<meta name="twitter:description" content="第六章 支持向量机 6.1 间隔与支持向量 给定训练样本集 \(D=\lbrace (\boldsymbol x_1,y_1),(\boldsymbol x_2,y_2), \dots ,(\boldsymbol x_m,y_m) \rbrace, y_i\in\lbrace -1, +1 \rbrace\) , 分类学习最基本的想法就是训练集 \(D\) 在样本空间中找到一个划分超平面，将不同类">
 <meta name="twitter:image" content="https://liulinyun.github.io/2018/03/29/支持向量机/支持向量机_图6_1.png">
 
 
@@ -132,7 +129,7 @@
 
 
 
-  <title>支持向量机 | LiuLin的学习笔记</title>
+  <title>支持向量机 | 流粼的学习笔记</title>
   
 
 
@@ -162,7 +159,7 @@
     <div class="custom-logo-site-title">
       <a href="/"  class="brand" rel="start">
         <span class="logo-line-before"><i></i></span>
-        <span class="site-title">LiuLin的学习笔记</span>
+        <span class="site-title">流粼的学习笔记</span>
         <span class="logo-line-after"><i></i></span>
       </a>
     </div>
@@ -244,11 +241,11 @@
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="流粼">
       <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="image" content="http://www.sfs-cn.com/node3/node924/node27495/node27496/images/00236093.jpg">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="LiuLin的学习笔记">
+      <meta itemprop="name" content="流粼的学习笔记">
     </span>
 
     
@@ -306,7 +303,8 @@
       
 
       
-        <h2 id="第六章-支持向量机">第六章 支持向量机</h2>
+        <p id="section"><a id="more"></a></p>
+<h2 id="第六章-支持向量机">第六章 支持向量机</h2>
 <h3 id="间隔与支持向量">6.1 间隔与支持向量</h3>
 <p>给定训练样本集 <span class="math inline">\(D=\lbrace (\boldsymbol x_1,y_1),(\boldsymbol x_2,y_2), \dots ,(\boldsymbol x_m,y_m) \rbrace, y_i\in\lbrace -1, +1 \rbrace\)</span> , 分类学习最基本的想法就是训练集 <span class="math inline">\(D\)</span> 在样本空间中找到一个划分超平面，将不同类别的样本分开。但能将训练样本分开的划分超平面可能有很多，如图6.1所示，我们应该努力去找到哪一个呢？</p>
 <p><img src="/2018/03/29/支持向量机/支持向量机_图6_1.png" alt="图6.1 存在多个划分超平面将两类训练样本分开"> <strong>图6.1</strong> 存在多个划分超平面将两类训练样本分开</p>
@@ -469,6 +467,10 @@ y_i f(\boldsymbol x_i) - 1 \geqslant 0 \\
       <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="http://www.sfs-cn.com/node3/node924/node27495/node27496/images/00236093.jpg"
+                alt="流粼" />
             
               <p class="site-author-name" itemprop="name">流粼</p>
               <p class="site-description motion-element" itemprop="description">学习笔记、读书笔记、生活感悟</p>
