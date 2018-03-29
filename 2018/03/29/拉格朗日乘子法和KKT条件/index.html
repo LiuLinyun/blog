@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+  
+  
+  <link rel="stylesheet" media="all" href="/lib/Han/dist/han.min.css?v=3.3">
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="拉格朗日乘子法和KKT条件（一）关于拉格朗日乘子法首先来了解拉格朗日乘子法，那么为什么需要拉格朗日乘子法？记住，有拉格朗日乘子法的地方，必然是一个组合优化问题。那么带约束的优化问题很好说，就比如说下面这个： \begin{aligned} min &amp; \quad f = 2x_1^2+3x_2^2+7x_3^2 \\ s.t. &amp; \quad 2x_1+x_2 = 1 \\       &amp; \qu">
+<meta property="og:type" content="article">
+<meta property="og:title" content="拉格朗日乘子法和KKT条件">
+<meta property="og:url" content="https://liulinyun.github.io/2018/03/29/拉格朗日乘子法和KKT条件/index.html">
+<meta property="og:site_name" content="LiuLin的学习笔记">
+<meta property="og:description" content="拉格朗日乘子法和KKT条件（一）关于拉格朗日乘子法首先来了解拉格朗日乘子法，那么为什么需要拉格朗日乘子法？记住，有拉格朗日乘子法的地方，必然是一个组合优化问题。那么带约束的优化问题很好说，就比如说下面这个： \begin{aligned} min &amp; \quad f = 2x_1^2+3x_2^2+7x_3^2 \\ s.t. &amp; \quad 2x_1+x_2 = 1 \\       &amp; \qu">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://liulinyun.github.io/2018/03/29/拉格朗日乘子法和KKT条件/拉格朗日乘子法和KKT条件_图_1.png">
+<meta property="og:image" content="https://liulinyun.github.io/2018/03/29/拉格朗日乘子法和KKT条件/拉格朗日乘子法和KKT条件_图_2.png">
+<meta property="og:updated_time" content="2018-03-29T07:50:10.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="拉格朗日乘子法和KKT条件">
+<meta name="twitter:description" content="拉格朗日乘子法和KKT条件（一）关于拉格朗日乘子法首先来了解拉格朗日乘子法，那么为什么需要拉格朗日乘子法？记住，有拉格朗日乘子法的地方，必然是一个组合优化问题。那么带约束的优化问题很好说，就比如说下面这个： \begin{aligned} min &amp; \quad f = 2x_1^2+3x_2^2+7x_3^2 \\ s.t. &amp; \quad 2x_1+x_2 = 1 \\       &amp; \qu">
+<meta name="twitter:image" content="https://liulinyun.github.io/2018/03/29/拉格朗日乘子法和KKT条件/拉格朗日乘子法和KKT条件_图_1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://liulinyun.github.io/2018/03/29/拉格朗日乘子法和KKT条件/"/>
+
+
+
+
+
+  <title>拉格朗日乘子法和KKT条件 | LiuLin的学习笔记</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">LiuLin的学习笔记</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">前方道路畅通！！！</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://liulinyun.github.io/2018/03/29/拉格朗日乘子法和KKT条件/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="流粼">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="LiuLin的学习笔记">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">拉格朗日乘子法和KKT条件</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-29T15:48:41+08:00">
+                2018-03-29
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body han-init-context" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="拉格朗日乘子法和KKT条件"><a href="#拉格朗日乘子法和KKT条件" class="headerlink" title="拉格朗日乘子法和KKT条件"></a>拉格朗日乘子法和KKT条件</h1><h2 id="（一）关于拉格朗日乘子法"><a href="#（一）关于拉格朗日乘子法" class="headerlink" title="（一）关于拉格朗日乘子法"></a>（一）关于拉格朗日乘子法</h2><p>首先来了解拉格朗日乘子法，那么为什么需要拉格朗日乘子法？记住，有拉格朗日乘子法的地方，必然是一个组合优化问题。那么带约束的优化问题很好说，就比如说下面这个：</p>
+<script type="math/tex; mode=display">\begin{aligned}
+min & \quad f = 2x_1^2+3x_2^2+7x_3^2 \\
+s.t. & \quad 2x_1+x_2 = 1 \\ 
+     & \quad 2x_2+3x_3 = 2
+\end{aligned}</script><p>这是一个带等式约束的优化问题，有目标值，有约束条件。那么想想假设没有约束条件这个问题是怎么求解的呢？是不是直接 $f$ 对各个 $x$ 求导等于 0，解 $x$ 就可以了，可以看到没有约束的话，求导为0，那么各个 $x$ 均为 0 吧，这样 $f=0$ 了，最小。但是 $x$ 都为 0 不满足约束条件呀，那么问题就来了。这里在说一点的是，为什么上面说求导为0就可以呢？理论上多数问题是可以的，但是有的问题不可以。如果求导为 0 一定可以的话，那么 $f$ 一定是个凸优化问题，什么是凸的呢？如下图所示：<br><img src="/2018/03/29/拉格朗日乘子法和KKT条件/拉格朗日乘子法和KKT条件_图_1.png" alt="图一 什么是凸优化问题"><br><strong>图一</strong> 什么是凸优化问题<br>凸的就是开口朝一个方向（向上或向下）。更准确的数学关系就是：</p>
+<script type="math/tex; mode=display">\quad \dfrac{f(x_1)+f(x_2)}{2} >f(\dfrac{x_1+x_2}{2}) \quad \text{或者}\\ \dfrac{f(x_1)+f(x_2)}{2} <f(\dfrac{x_1+x_2}{2})</script><p>注意的是这个条件是<strong>对函数的任意 $x$ 取值</strong>。如果满足第一个就是开口向上的凸，第二个是开口向下的凸。可以看到对于凸问题，你去求导的话，是不是只有一个极点，那么他就是最优点，很合理。类似的看看上图右边这个图，很明显这个条件对任意的 $x$ 取值不满足，有时满足第一个关系，有时满足第二个关系，对应上面的两处取法就是，所以这种问题就不行，再看看你去对它求导，会得到好几个极点。然而从图上可以看到，只有其中一个极点是最优解，其他的是局部最优解，那么当真实问题的时候你选择那个？说了半天要说啥呢，就是拉格朗日法是一定适合于凸问题的，不一定适合于其他问题，还好我们最终的问题是凸问题。<br>回头再来看看有约束的问题，既然有了约束不能直接求导，那么如果把约束去掉不就可以了吗？怎么去掉呢？这才需要拉格朗日方法。既然是等式约束，那么我们把这个约束乘一个系数加到目标函数中去，这样就相当于既考虑了原目标函数，也考虑了约束条件，比如上面那个函数，加进去就变为：</p>
+<script type="math/tex; mode=display">min \quad f = 2x_1^2+3x_2^2+7x_3^2 +\alpha _1(2x_1+x_2- 1)+\alpha _2(2x_2+3x_3 - 2)</script><p>这里可以看到与 $\alpha_1,\alpha_2$ 相乘的部分都为0，所以 $\alpha_1,\alpha_2$ 的取值为全体实数。现在这个优化目标函数就没有约束条件了吧，既然如此，求法就简单了，分别对 $x$ 求导等于0，如下：</p>
+<script type="math/tex; mode=display">\dfrac{\partial f}{\partial x_1}=4x_1+2\alpha_1=0\Rightarrow x_1=-0.5\alpha_1 \\ \dfrac{\partial f}{\partial x_2}=6x_2+\alpha_1+2\alpha_2=0\Rightarrow x_2=-\dfrac{\alpha_1+2\alpha_2}{6} \\ \dfrac{\partial f}{\partial x_3}=14x_3+3\alpha_2=0\Rightarrow x_3=-\dfrac{3\alpha_2}{14}</script><p>把它在带到约束条件中去，可以看到，2个变量两个等式，可以求解，最终可以得到 $\alpha_1 = -0.39, \alpha_2 = -1.63$，这样再代回去求 $x$ 就可以了。那么一个带等式约束的优化问题就通过拉格朗日乘子法完美的解决了。那么更高一层的，带有不等式的约束问题怎么办？那么就需要用更一般化的拉格朗日乘子法即KKT条件来解决这种问题了。</p>
+<h2 id="（二）关于KKT条件"><a href="#（二）关于KKT条件" class="headerlink" title="（二）关于KKT条件"></a>（二）关于KKT条件</h2><p>继续讨论关于带等式以及不等式的约束条件的凸函数优化。任何原始问题约束条件无非最多3种，等式约束，大于号约束，小于号约束，而这三种最终通过将约束方程化简化为两类：约束方程等于0和约束方程小于0。再举个简单的方程为例，假设原始约束条件为下列所示：</p>
+<script type="math/tex; mode=display">min \quad f = x_1^2-2x_1+1+x_2^2+4x_2+4 \\s.t. \quad x_1+10x_2 > 10 \\ \quad \quad \quad 10 x_1-10x_2 < 10</script><p>那么把约束条件变个样子：</p>
+<script type="math/tex; mode=display">s.t. \quad 10-x_1-10x_2 <0 \\ \quad \quad \quad 10x_1-x_2 - 10<0</script><p>为什么都变成等号与小于号，方便后面的，反正式子的关系没有发生任何变化就行了。</p>
+<p>现在将约束拿到目标函数中去就变成： </p>
+<script type="math/tex; mode=display">\begin{aligned}
+L(x,\alpha) & = f(x) + \alpha_1 g_1(x)+\alpha_2 g_2(x) \\ 
+& = x_1^2-2x_1+1+x_2^2+4x_2+4+ \alpha_1(10-x_1-10x_2 ) + \alpha_2(10x_1-x_2 - 10) 
+\end{aligned}</script><p>那么KKT条件的定理是什么呢？就是如果一个优化问题</p>
+<script type="math/tex; mode=display">\begin{aligned}
+\min_x & \quad f(x) \\
+s.t.   & \quad g_i(x) \leq 0 \quad (i=1,2,\dots,m) \\ 
+       & \quad h_j(x) = 0 \quad (j=1,2,\dots,n)
+\end{aligned}</script><p>引入相应的拉格朗日乘子变成:</p>
+<script type="math/tex; mode=display">L(x,\alpha,\beta) = f(x) + \sum \alpha_i g_i(x) + \sum \beta_j h_j(x)</script><p>其中$g$是不等式约束，$h$是等式约束（像上面那个只有不等式约束，也可能有等式约束）。那么KKT条件就是函数的最优值必定满足下面条件：<br>(1) L对各个x求导为零；<br>(2) $ h_j(x)=0 $;<br>(3) $ \sum\alpha_i g_i(x) = 0，\alpha_i \geq 0 $<br>也就是：</p>
+<script type="math/tex; mode=display">\begin{cases}
+\dfrac {\partial L} {\partial x} = 0 \\
+h_j(x) = 0 \\
+\sum\alpha_i g_i(x) = 0，\alpha_i \geq 0
+\end{cases}</script><p>第一二个式子易于理解。对于第三个式子，我们知道在约束条件变完后，所有的 $g(x) \leq 0$，且 $\alpha_i \geq 0$，然后对它们求和还要等于0，这就是说，要么某个不等式 $\alpha_i = 0$，要么某个不等式 $g_i(x) = 0$。因此我们可以把KKT条件写成如下易于使用的形式：</p>
+<script type="math/tex; mode=display">\begin{cases}
+\dfrac {\partial L} {\partial x} = 0 \quad \text{拉格朗日乘子法} \\
+h_j(x) = 0 \quad \text{等式约束}\\
+g_i(x) \leq 0 \quad \text{不等式约束}\\
+\alpha_i \geq 0 \\
+\alpha_i g_i(x) = 0
+\end{cases}</script><p>后面三个式子就是常用到的由不等式引入的KKT条件。那么为什么会是这样的呢？我们假设有一个目标函数以及它的约束条件，形象地画出来就是这个样子：<br><img src="/2018/03/29/拉格朗日乘子法和KKT条件/拉格朗日乘子法和KKT条件_图_2.png" alt="图二 什么是凸优化问题"><br>假设就这么几个不等式约束吧，最终约束是把自变量约束在一定范围，而函数是在这个范围内寻找最优解。函数开始也不知道该取哪一个值是吧，那就随便取一个，假设某一次取得自变量集合为 $x_1^<em>$，发现一看，不满足约束，然后再换呀换，换到了 $x_2^</em>$，发现可以了，但是这个时候函数值不是最优的，并且 $x_2^<em>$ 使得 $g_1(x)$ 与 $g_2(x)$ 等于0了，而 $g_3(x)$ 还是小于0。这个时候，我们发现在 $x_2^</em>$ 的基础上再寻找一组更优解要靠谁呢？当然是要靠约束条件 $g_1(x)$ 与 $g_2(x)$，因为他们等于0了，很极限呀，一不小心，走错了就不满足它们两了，这个时候我们会选择 $g_1(x)$ 与 $g_2(x)$ 的梯度方向往下走，这样才能最大程度的摆脱 $g_1(x)$ 与 $g_2(x)$ 等于 0 的命运，使得他们满足小于 0 的约束条件对不对。至于这个时候需不需要管 $g_3(x)$ 呢？正常来说管不管都可以，如果管了，也取  $g_3(x)$ 在$x_2^<em>$ 处的梯度的话，因为 $g_3(x)$已经满足了小于0的条件，这个时候在取在 $x_2^</em>$ 处的梯度，你能保证它是往好的变了还是往差的变了？答案是都有可能。运气好，往好的变了，可以更快得到结果，运气不好，往差的变了，反而适得其反。那么如果不管呢？因为 $g_1(x)$ 与 $g_2(x)$ 已经在边缘了，所以取它的梯度是一定会让目标函数变好的。综合来看，这个时候我们就不选 $g_3$。那么再往下走，假设到了自变量优化到了 $x_3^<em>$，这个时候发现 $g_2(x)$ 与 $g_3(x)$ 等于0，也就是走到边了，而 $g_1(x)$ 小于0，可变化的空间绰绰有余，那么这个时候举要取 $g_2(x)$ 与 $g_3(x)$ 的梯度方向作为变化的方向，而不用管 $g_1(x)$。那么一直这样走呀走，最终找到最优解。可以看到的是，上述如果 $g_1(x),g_2(x)=0$ 的话，我们是需要优化它的，又因为他们本身的条件是小于0的，所以最终的公式推导上表明，是要乘以一个正系数 $\alpha$ 作为他们梯度增长的倍数，而那些不需要管的 $g(x)$ 为了统一表示，这个时候可以将这个系数设置为0，那么这一项在这一次的优化中就没有了。那么把这两种综合起来就可以表示为 $\sum\alpha_ig_i(x)=0，\alpha_i\ge0$。也即是某次的 $g(x)$ 在为最优解起作用，那么它的系数值(可以)不为0。如果某次 $g(x)$ 没有为下一次的最优解$x$的获得起到作用，那么它的系数就必须为0，这就是这个公式的含义。<br>用一句话来说就是：<em>*凸优化问题的最优解在约束条件构成的边界上</em></em></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/03/29/各种决策树/" rel="next" title="各种决策树">
+                <i class="fa fa-chevron-left"></i> 各种决策树
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/03/29/支持向量机/" rel="prev" title="支持向量机">
+                支持向量机 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">流粼</p>
+              <p class="site-description motion-element" itemprop="description">学习笔记、读书笔记、生活感悟</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/Liulinyun" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:liulinyun-oo@foxmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#拉格朗日乘子法和KKT条件"><span class="nav-number">1.</span> <span class="nav-text">拉格朗日乘子法和KKT条件</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#（一）关于拉格朗日乘子法"><span class="nav-number">1.1.</span> <span class="nav-text">（一）关于拉格朗日乘子法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#（二）关于KKT条件"><span class="nav-number">1.2.</span> <span class="nav-text">（二）关于KKT条件</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">流粼</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/three/three.min.js"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/three/canvas_lines.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>

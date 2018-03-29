@@ -236,6 +236,358 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://liulinyun.github.io/2018/03/29/支持向量机/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="流粼">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="LiuLin的学习笔记">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/03/29/支持向量机/" itemprop="url">支持向量机</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-29T15:53:11+08:00">
+                2018-03-29
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body han-init-context" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="第六章-支持向量机"><a href="#第六章-支持向量机" class="headerlink" title="第六章  支持向量机"></a>第六章  支持向量机</h2><h3 id="6-1-间隔与支持向量"><a href="#6-1-间隔与支持向量" class="headerlink" title="6.1 间隔与支持向量"></a>6.1 间隔与支持向量</h3><p>给定训练样本集 $D=\lbrace (\boldsymbol x_1,y_1),(\boldsymbol x_2,y_2), \dots ,(\boldsymbol x_m,y_m) \rbrace, y_i\in\lbrace -1, +1 \rbrace$ , 分类学习最基本的想法就是训练集 $D$ 在样本空间中找到一个划分超平面，将不同类别的样本分开。但能将训练样本分开的划分超平面可能有很多，如图6.1所示，我们应该努力去找到哪一个呢？</p>
+<p><img src="/2018/03/29/支持向量机/支持向量机_图6_1.png" alt="**图6.1** 存在多个划分超平面将两类训练样本分开"><br><strong>图6.1</strong> 存在多个划分超平面将两类训练样本分开</p>
+<p>直观上看，应该去找两类训练样本“正中间”的划分超平面，即图6.1中红色实线的那个，因为该划分超平面对训练样本局部扰动的“容忍”性能最好。</p>
+<p>在样本空间中，划分超平面可通过如下现行方程来描述：</p>
+<script type="math/tex; mode=display">\boldsymbol{w^Tx}+b=0 \tag{6.1}</script><p>其中 $ \boldsymbol w=(w_1;w_2;\dots;w_d) $ 为法向量，决定了超平面的方向；$b$ 为位移项，决定了超平面与原点之间的距离。显然，划分超平面可被法向量 $\boldsymbol w$ 和位移 $b$ 确定，下面我们将其记为 $(w,b)$ 。样本空间中任意点 $x$ 到超平面 $(w,b)$ 的距离可写为</p>
+<script type="math/tex; mode=display">r=\frac {|\boldsymbol{w^Tx} + b|} {\| \boldsymbol{w} \|}  \tag{6.2}</script><p>假设超平面 $(\boldsymbol w,b)$ 能将样本正确分类，即对于 $(\boldsymbol x_i,y_i) \in D$，若 $y_i=+1$，则有 $\boldsymbol{w^Tx}_i + b &gt; 0$；若 $y_i = -1$，则有 $\boldsymbol{w^Tx}_i + b &lt; 0$。令</p>
+<script type="math/tex; mode=display">\begin{cases}
+\boldsymbol{w^Tx}_i + b \geqslant +1, & y_i=+1 \\
+\boldsymbol{w^Tx}_i + b \leqslant -1, & y_i=-1 \\
+\end{cases} \tag{6.3}</script><p>如图6.2所示，距离超平面最近的这几个训练样本使上式的等号成立，它们被称为“支持向量”，两个异类支持向量到超平面的距离之和为</p>
+<script type="math/tex; mode=display">\gamma = \frac 2 {\| \boldsymbol w \|} \tag{6.4}</script><p>它被称为“间隔”</p>
+<p><img src="/2018/03/29/支持向量机/支持向量机_图6_2.jepg" alt="**图6.2** 支持向量与间隔"><br><strong>图6.2</strong> 支持向量与间隔</p>
+<p>欲找到具有“最大间隔”的划分超平面，也就是要找到参数 $\boldsymbol w$ 和 $b$，使得 $\gamma$ 最大，即</p>
+<script type="math/tex; mode=display">\begin{aligned} 
+\max_{\boldsymbol w,b} \quad  & \frac 2 {\| \boldsymbol w \|} \\ 
+s.t. \quad & y_i(\boldsymbol {w^Tx}_i + b) \geqslant 1, \quad i=1,2,\dots,m.
+\end{aligned} \tag{6.5}</script><p>显然，为了最大化间隔，只需要最大化 ${| \boldsymbol w |}^{-1}$，这等价于最小化 ${| \boldsymbol w |}^2$。于是，该优化问题可写为</p>
+<script type="math/tex; mode=display">\begin{aligned} 
+\min_{\boldsymbol w,b} \quad  & \frac 1 2 {\| \boldsymbol w \|}^2 \\ 
+s.t. \quad & y_i(\boldsymbol {w^Tx}_i + b) \geqslant 1, \quad i=1,2,\dots,m.
+\end{aligned} \tag{6.6}</script><p>这就是支持向量机的基本型。</p>
+<h3 id="6-2-对偶问题"><a href="#6-2-对偶问题" class="headerlink" title="6.2 对偶问题"></a>6.2 对偶问题</h3><p>我们希望求解上式来得到最大间隔划分超平面所对应的模型</p>
+<script type="math/tex; mode=display">f(x) = \boldsymbol{w^Tx} + b \tag{6.7}</script><p>其中 $\boldsymbol w$ 和 $b$ 是模型参数。注意到式(6.6)本身是一个凸二次规划问题，能直接用现成的优化计算包求解，但我们有更高效的办法。</p>
+<p>对式(6.6)使用拉格朗日乘子法可得到其“对偶问题”。具体来说，对其中的每条约束添加拉格朗日乘子 $\alpha_i \geqslant 0$，则该问题的拉格朗日函数可写为</p>
+<script type="math/tex; mode=display">L(\boldsymbol w,b,\boldsymbol \alpha) = \frac 1 2 {\| \boldsymbol w \|}^2 + \sum_{i=1}^{m}{\alpha_i(1-y_i(\boldsymbol {w^Tx_i} + b))} \tag{6.8}</script><p>其中 $\boldsymbol \alpha = (\alpha_1;\alpha_2;\dots;\alpha_m)$。</p>
+<p>具体的推导过程如下：</p>
+<ul>
+<li>将式(6.6)写成标准型<script type="math/tex; mode=display">\begin{aligned} 
+\min_{\boldsymbol w,b} \quad  & \frac 1 2 {\| \boldsymbol w \|}^2 \\ 
+s.t. \quad & 1 - y_i(\boldsymbol {w^Tx}_i + b) \leqslant 0, \quad i=1,2,\dots,m.
+\end{aligned}</script></li>
+<li>为毎个不等式约束添加拉格朗日乘子 $\alpha_i \geqslant 0$，再与目标函数相加，变成如下优化问题：<script type="math/tex; mode=display">\begin{aligned} 
+\min_{\boldsymbol w, b, \boldsymbol \alpha} & \quad \frac 1 2 {\| \boldsymbol w \|}^2 + \sum_{i=1}^{m}{\alpha_i(1-y_i(\boldsymbol {w^Tx_i} + b))} \\
+s.t. & \quad \alpha_i \geqslant 0, \quad i = 1,2,\dots,m
+\end{aligned}</script></li>
+<li>上式的目标函数即是拉格朗日函数，求解该目标函数的最小值，当 $\partial L / \partial \boldsymbol w = 0$，$\partial L / \partial b = 0$，$\partial L / \partial \boldsymbol \alpha = 0$ 时取得。由于这三个等式中有三个未知数，分别是 $\boldsymbol w$、$b$、$\boldsymbol \alpha$，因此可以考虑用其中一个未知数表示另外两个，考虑对 $\boldsymbol w$ 和 $b$ 求导,进而可得到式(6.9)和式(6.10)<script type="math/tex; mode=display">\begin{cases}
+\dfrac {\partial L}  {\partial \boldsymbol w} = \boldsymbol w - \displaystyle \sum_{i=1}^{m}{\alpha_i y_i \boldsymbol x_i} = 0 \\
+\dfrac {\partial L} {\partial b} = \displaystyle \sum_{i=1}^{m}{\alpha_i y_i} = 0
+\end{cases}</script></li>
+</ul>
+<p>令 $L(\boldsymbol w,b,\boldsymbol \alpha)$ 对 $\boldsymbol w$ 和 $b$ 的偏导为零可得</p>
+<script type="math/tex; mode=display">\boldsymbol w = \sum_{i=1}^{m}{\alpha_i y_i \boldsymbol x_i} \tag{6.9}</script><script type="math/tex; mode=display">0 = \sum_{i=1}^{m}{\alpha_i y_i} \tag{6.10}</script><p>将式(6.9)带入(6.8)，即可将 $L(\boldsymbol w,b,\boldsymbol \alpha)$ 中的 $\boldsymbol w$ 和 $b$ 消去，再考虑(6.10)的约束，就得到(6.6)的对偶问题</p>
+<script type="math/tex; mode=display">\begin{aligned} 
+\max_{\boldsymbol \alpha} \quad & \sum_{i=1}^m{\alpha_i} - \frac 1 2 \sum_{i=1}^m \sum_{j=1}^m {\alpha_i \alpha_j y_i y_j \boldsymbol x_i^T \boldsymbol x_j} \\
+s.t. \quad & \sum_{i=1}^m {\alpha_i y_i} = 0 \\
+& \alpha_i \geqslant 0, \quad i=1,2,\dots,m
+\end{aligned} \tag{6.11}</script><p>解出 $\boldsymbol \alpha$ 后，求出 $\boldsymbol w$ 与 $b$ 即可得到模型</p>
+<script type="math/tex; mode=display">\begin{aligned}
+f(x) &= \boldsymbol {w^Tx} + b \\
+     &= \sum_{i=1}^m {\alpha_i y_i \boldsymbol {x_i^T x} + b}
+\end{aligned} \tag{6.12}</script><p>从对偶问题(6.11)解出的 $\alpha_i$ 是式(6.8)中的拉格朗日乘子，它恰好对应着训练样本 $(\boldsymbol x_i,y_i)$。注意到式(6.6)中有不等式约束，因此上述过程需要满足KKT条件，即要求</p>
+<script type="math/tex; mode=display">\begin{cases}
+\alpha_i \geqslant 0 \\
+y_i f(\boldsymbol x_i) - 1 \geqslant 0 \\
+\alpha_i(y_i f(\boldsymbol x_i)-1) = 0
+\end{cases} \tag{6.13}</script><p>于是，对训练样本 $(\boldsymbol x_i,y_i)$，总有 $\alpha_i=0$ 或 $y_i f(\boldsymbol x_i) = 1$。若 $\alpha_i = 0$，则该样本不会在式 (6.12) 的求和中出现，也就不会对 $f(x)$ 产生任何影响；若 $\alpha_i &gt; 0$，则必有 $y_i f(\boldsymbol x_i) = 1$，所对应的样本点位于最大间隔边界上，是一个支持向量。这显示出支持向量机的一个重要性质：训练完成后，大部分的训练样本都不需要保留，最终模型仅仅与支持向量有关。</p>
+<p>那么，如何求解式(6.11)呢？不难发现这是一个二次规划问题，可用通用的二次规划求解算法来求解；然而，该问题的规模正比于训练样本数，在实际的训练中会造成极大的训练开销，为了避开这个障碍，人们提出了很多高效算法，SMO是其中一个著名的代表。</p>
+<p>SMO的基本思路式先固定 $\alpha_i$ 之外的所有参数，然后求 $\alpha_i$ 上的极值。由于存在约束 $\sum_{i=1}^m {\alpha_i y_i} = 0$，若固定 $\alpha_i$ 之外的其他变量，则 $\alpha_i$ 可由其它变量导出，于是，SMO每次选择两个变量 $\alpha_i$ 和 $\alpha_j$，并固定其它参数。这样，在参数初始化后，SMO不断执行如下两个步骤直至收敛</p>
+<ul>
+<li>选取一对需要更新的变量 $\alpha_i$ 和 $\alpha_j$；</li>
+<li>固定 $\alpha_i$ 和 $\alpha_j$ 以外的参数，求解式(6.11)获得更新后的 $\alpha_i$ 和 $\alpha_j$。</li>
+</ul>
+<p>选取 $\alpha_i$ 和 $\alpha_j$ 的启发式策略如下：</p>
+<ul>
+<li>(外循环)交替执行以下步骤选取 $\alpha_i$: 1.选择违反KKT条件的 $\alpha_i$ 作为第一个变量；2.遍历非边界样本集 $(0 &lt; \alpha &lt; C)$，其中 $C$ 为惩罚系数(有些数据难以分类时松弛式(6.13)中KKT条件的约束 $\alpha_i$ 的约束，从 $\alpha_i \geqslant 0$ 变为 $0 \leqslant \alpha_i \leqslant C$)，选取其中违反KKT的 $\alpha_i$ 作为第一个变量；</li>
+<li>(内循环)第二个变量 $\alpha_j$ 的选择希望使其有较大的变化。首先定义 $E_k = f(\boldsymbol x_k) - y_k$ 表示第 $k$ 个样本的预测值与真实值之差。由于 $\alpha_j$ 的选择依赖于最大化 $| E_i - E_j |$，含义在于使两个样本之间间隔最大，所以，当 $\alpha_i$ 为正时选取 $E$ 最小的 $\alpha$ 作为 $\alpha_j$，当 $\alpha_i$ 为负时选取 $E$ 最大的 $\alpha$ 作为 $\alpha_j$。</li>
+</ul>
+<p>实际中，按如下办法判断 $\alpha$ 是否违反KKT条件：</p>
+<script type="math/tex; mode=display">\text{KKT条件} \begin{cases}
+\quad \alpha_i = 0 & \implies y_i f(\boldsymbol x_i) \geqslant 1 \\
+\quad \alpha_i = C & \implies y_i f(\boldsymbol x_i) \leqslant 1 \\
+0 < \alpha_i < C & \implies y_i f(\boldsymbol x_i) = 1
+\end{cases}</script><p>SMO算法之所以高效，恰恰由于在固定其它参数后，仅仅优化两个参数的过程能够做到非常高效。具体来说，仅仅考虑 $\alpha_i$ 和 $\alpha_j$ 时，式(6.11)中的约束可重写为</p>
+<script type="math/tex; mode=display">\alpha_i y_i + \alpha_j y_j = c, \quad \alpha_i \geqslant 0, \quad \alpha_j \geqslant 0 \tag{6.14}</script><p>其中</p>
+<script type="math/tex; mode=display">c = -\sum_{k \neq i,j} {\alpha_k y_k} \tag{6.15}</script><p>是使得 $\sum_{i=1}^m {\alpha_i y_i} = 0$ 成立的常数。用</p>
+<script type="math/tex; mode=display">\alpha_i y_i + \alpha_j y_j = c \tag{6.16}</script><p>消去式(6.11)中的变量 $\alpha_j$，则得到一个关于 $\alpha_i$ 的单变量二次规划问题，仅有的约束是 $\alpha_i \geqslant 0$。不难发现，这样的二次规划问题具有闭式解，于是不必调用数值优化算法即可高效算出更新后的 $\alpha_i$ 和 $\alpha_j$。</p>
+<p>如何确定偏移项 $b$ 呢？注意到对任意支持向量 $(\boldsymbol x_s, y_s)$ 都有 $y_s f(\boldsymbol x_s) = 1$，即</p>
+<script type="math/tex; mode=display">y_s \left ( \sum_{i \in S} {\alpha_i y_i \boldsymbol x_i^T \boldsymbol x_s} + b \right ) = 1 \tag{6.17}</script><p>其中 $S=\{i | \alpha_i &gt; 0, \quad i = 1,2,\dots,m \}$ 为所有支持向量的下标集合。理论上，可以选用任意支持向量并通过求解式(t.17)获得 $b$，但现实任务中常常采用更为鲁棒的做法：使用所有支持向量的平均值</p>
+<script type="math/tex; mode=display">b=\frac 1 {|S|} \sum_{s \in S} \left( \frac 1 y_s - \sum_{s \in S} {\alpha_i y_i \boldsymbol x_i^T \boldsymbol x_s} \right) \tag{6.18}</script><h2 id="与对率回归模型，BP神经网络的联系"><a href="#与对率回归模型，BP神经网络的联系" class="headerlink" title="与对率回归模型，BP神经网络的联系"></a>与对率回归模型，BP神经网络的联系</h2><p>如果软间隔SVM的损失函数使用対率损失函数，则得到的优化目标就相当于加上了正则化项的对率回归模型，也相当于只有一层全连接层和一层sigmoid函数输出的带正则化项的BP神经网络。</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://liulinyun.github.io/2018/03/29/拉格朗日乘子法和KKT条件/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="流粼">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="LiuLin的学习笔记">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/03/29/拉格朗日乘子法和KKT条件/" itemprop="url">拉格朗日乘子法和KKT条件</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-29T15:48:41+08:00">
+                2018-03-29
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body han-init-context" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="拉格朗日乘子法和KKT条件"><a href="#拉格朗日乘子法和KKT条件" class="headerlink" title="拉格朗日乘子法和KKT条件"></a>拉格朗日乘子法和KKT条件</h1><h2 id="（一）关于拉格朗日乘子法"><a href="#（一）关于拉格朗日乘子法" class="headerlink" title="（一）关于拉格朗日乘子法"></a>（一）关于拉格朗日乘子法</h2><p>首先来了解拉格朗日乘子法，那么为什么需要拉格朗日乘子法？记住，有拉格朗日乘子法的地方，必然是一个组合优化问题。那么带约束的优化问题很好说，就比如说下面这个：</p>
+<script type="math/tex; mode=display">\begin{aligned}
+min & \quad f = 2x_1^2+3x_2^2+7x_3^2 \\
+s.t. & \quad 2x_1+x_2 = 1 \\ 
+     & \quad 2x_2+3x_3 = 2
+\end{aligned}</script><p>这是一个带等式约束的优化问题，有目标值，有约束条件。那么想想假设没有约束条件这个问题是怎么求解的呢？是不是直接 $f$ 对各个 $x$ 求导等于 0，解 $x$ 就可以了，可以看到没有约束的话，求导为0，那么各个 $x$ 均为 0 吧，这样 $f=0$ 了，最小。但是 $x$ 都为 0 不满足约束条件呀，那么问题就来了。这里在说一点的是，为什么上面说求导为0就可以呢？理论上多数问题是可以的，但是有的问题不可以。如果求导为 0 一定可以的话，那么 $f$ 一定是个凸优化问题，什么是凸的呢？如下图所示：<br><img src="/2018/03/29/拉格朗日乘子法和KKT条件/拉格朗日乘子法和KKT条件_图_1.png" alt="图一 什么是凸优化问题"><br><strong>图一</strong> 什么是凸优化问题<br>凸的就是开口朝一个方向（向上或向下）。更准确的数学关系就是：</p>
+<script type="math/tex; mode=display">\quad \dfrac{f(x_1)+f(x_2)}{2} >f(\dfrac{x_1+x_2}{2}) \quad \text{或者}\\ \dfrac{f(x_1)+f(x_2)}{2} <f(\dfrac{x_1+x_2}{2})</script><p>注意的是这个条件是<strong>对函数的任意 $x$ 取值</strong>。如果满足第一个就是开口向上的凸，第二个是开口向下的凸。可以看到对于凸问题，你去求导的话，是不是只有一个极点，那么他就是最优点，很合理。类似的看看上图右边这个图，很明显这个条件对任意的 $x$ 取值不满足，有时满足第一个关系，有时满足第二个关系，对应上面的两处取法就是，所以这种问题就不行，再看看你去对它求导，会得到好几个极点。然而从图上可以看到，只有其中一个极点是最优解，其他的是局部最优解，那么当真实问题的时候你选择那个？说了半天要说啥呢，就是拉格朗日法是一定适合于凸问题的，不一定适合于其他问题，还好我们最终的问题是凸问题。<br>回头再来看看有约束的问题，既然有了约束不能直接求导，那么如果把约束去掉不就可以了吗？怎么去掉呢？这才需要拉格朗日方法。既然是等式约束，那么我们把这个约束乘一个系数加到目标函数中去，这样就相当于既考虑了原目标函数，也考虑了约束条件，比如上面那个函数，加进去就变为：</p>
+<script type="math/tex; mode=display">min \quad f = 2x_1^2+3x_2^2+7x_3^2 +\alpha _1(2x_1+x_2- 1)+\alpha _2(2x_2+3x_3 - 2)</script><p>这里可以看到与 $\alpha_1,\alpha_2$ 相乘的部分都为0，所以 $\alpha_1,\alpha_2$ 的取值为全体实数。现在这个优化目标函数就没有约束条件了吧，既然如此，求法就简单了，分别对 $x$ 求导等于0，如下：</p>
+<script type="math/tex; mode=display">\dfrac{\partial f}{\partial x_1}=4x_1+2\alpha_1=0\Rightarrow x_1=-0.5\alpha_1 \\ \dfrac{\partial f}{\partial x_2}=6x_2+\alpha_1+2\alpha_2=0\Rightarrow x_2=-\dfrac{\alpha_1+2\alpha_2}{6} \\ \dfrac{\partial f}{\partial x_3}=14x_3+3\alpha_2=0\Rightarrow x_3=-\dfrac{3\alpha_2}{14}</script><p>把它在带到约束条件中去，可以看到，2个变量两个等式，可以求解，最终可以得到 $\alpha_1 = -0.39, \alpha_2 = -1.63$，这样再代回去求 $x$ 就可以了。那么一个带等式约束的优化问题就通过拉格朗日乘子法完美的解决了。那么更高一层的，带有不等式的约束问题怎么办？那么就需要用更一般化的拉格朗日乘子法即KKT条件来解决这种问题了。</p>
+<h2 id="（二）关于KKT条件"><a href="#（二）关于KKT条件" class="headerlink" title="（二）关于KKT条件"></a>（二）关于KKT条件</h2><p>继续讨论关于带等式以及不等式的约束条件的凸函数优化。任何原始问题约束条件无非最多3种，等式约束，大于号约束，小于号约束，而这三种最终通过将约束方程化简化为两类：约束方程等于0和约束方程小于0。再举个简单的方程为例，假设原始约束条件为下列所示：</p>
+<script type="math/tex; mode=display">min \quad f = x_1^2-2x_1+1+x_2^2+4x_2+4 \\s.t. \quad x_1+10x_2 > 10 \\ \quad \quad \quad 10 x_1-10x_2 < 10</script><p>那么把约束条件变个样子：</p>
+<script type="math/tex; mode=display">s.t. \quad 10-x_1-10x_2 <0 \\ \quad \quad \quad 10x_1-x_2 - 10<0</script><p>为什么都变成等号与小于号，方便后面的，反正式子的关系没有发生任何变化就行了。</p>
+<p>现在将约束拿到目标函数中去就变成： </p>
+<script type="math/tex; mode=display">\begin{aligned}
+L(x,\alpha) & = f(x) + \alpha_1 g_1(x)+\alpha_2 g_2(x) \\ 
+& = x_1^2-2x_1+1+x_2^2+4x_2+4+ \alpha_1(10-x_1-10x_2 ) + \alpha_2(10x_1-x_2 - 10) 
+\end{aligned}</script><p>那么KKT条件的定理是什么呢？就是如果一个优化问题</p>
+<script type="math/tex; mode=display">\begin{aligned}
+\min_x & \quad f(x) \\
+s.t.   & \quad g_i(x) \leq 0 \quad (i=1,2,\dots,m) \\ 
+       & \quad h_j(x) = 0 \quad (j=1,2,\dots,n)
+\end{aligned}</script><p>引入相应的拉格朗日乘子变成:</p>
+<script type="math/tex; mode=display">L(x,\alpha,\beta) = f(x) + \sum \alpha_i g_i(x) + \sum \beta_j h_j(x)</script><p>其中$g$是不等式约束，$h$是等式约束（像上面那个只有不等式约束，也可能有等式约束）。那么KKT条件就是函数的最优值必定满足下面条件：<br>(1) L对各个x求导为零；<br>(2) $ h_j(x)=0 $;<br>(3) $ \sum\alpha_i g_i(x) = 0，\alpha_i \geq 0 $<br>也就是：</p>
+<script type="math/tex; mode=display">\begin{cases}
+\dfrac {\partial L} {\partial x} = 0 \\
+h_j(x) = 0 \\
+\sum\alpha_i g_i(x) = 0，\alpha_i \geq 0
+\end{cases}</script><p>第一二个式子易于理解。对于第三个式子，我们知道在约束条件变完后，所有的 $g(x) \leq 0$，且 $\alpha_i \geq 0$，然后对它们求和还要等于0，这就是说，要么某个不等式 $\alpha_i = 0$，要么某个不等式 $g_i(x) = 0$。因此我们可以把KKT条件写成如下易于使用的形式：</p>
+<script type="math/tex; mode=display">\begin{cases}
+\dfrac {\partial L} {\partial x} = 0 \quad \text{拉格朗日乘子法} \\
+h_j(x) = 0 \quad \text{等式约束}\\
+g_i(x) \leq 0 \quad \text{不等式约束}\\
+\alpha_i \geq 0 \\
+\alpha_i g_i(x) = 0
+\end{cases}</script><p>后面三个式子就是常用到的由不等式引入的KKT条件。那么为什么会是这样的呢？我们假设有一个目标函数以及它的约束条件，形象地画出来就是这个样子：<br><img src="/2018/03/29/拉格朗日乘子法和KKT条件/拉格朗日乘子法和KKT条件_图_2.png" alt="图二 什么是凸优化问题"><br>假设就这么几个不等式约束吧，最终约束是把自变量约束在一定范围，而函数是在这个范围内寻找最优解。函数开始也不知道该取哪一个值是吧，那就随便取一个，假设某一次取得自变量集合为 $x_1^<em>$，发现一看，不满足约束，然后再换呀换，换到了 $x_2^</em>$，发现可以了，但是这个时候函数值不是最优的，并且 $x_2^<em>$ 使得 $g_1(x)$ 与 $g_2(x)$ 等于0了，而 $g_3(x)$ 还是小于0。这个时候，我们发现在 $x_2^</em>$ 的基础上再寻找一组更优解要靠谁呢？当然是要靠约束条件 $g_1(x)$ 与 $g_2(x)$，因为他们等于0了，很极限呀，一不小心，走错了就不满足它们两了，这个时候我们会选择 $g_1(x)$ 与 $g_2(x)$ 的梯度方向往下走，这样才能最大程度的摆脱 $g_1(x)$ 与 $g_2(x)$ 等于 0 的命运，使得他们满足小于 0 的约束条件对不对。至于这个时候需不需要管 $g_3(x)$ 呢？正常来说管不管都可以，如果管了，也取  $g_3(x)$ 在$x_2^<em>$ 处的梯度的话，因为 $g_3(x)$已经满足了小于0的条件，这个时候在取在 $x_2^</em>$ 处的梯度，你能保证它是往好的变了还是往差的变了？答案是都有可能。运气好，往好的变了，可以更快得到结果，运气不好，往差的变了，反而适得其反。那么如果不管呢？因为 $g_1(x)$ 与 $g_2(x)$ 已经在边缘了，所以取它的梯度是一定会让目标函数变好的。综合来看，这个时候我们就不选 $g_3$。那么再往下走，假设到了自变量优化到了 $x_3^<em>$，这个时候发现 $g_2(x)$ 与 $g_3(x)$ 等于0，也就是走到边了，而 $g_1(x)$ 小于0，可变化的空间绰绰有余，那么这个时候举要取 $g_2(x)$ 与 $g_3(x)$ 的梯度方向作为变化的方向，而不用管 $g_1(x)$。那么一直这样走呀走，最终找到最优解。可以看到的是，上述如果 $g_1(x),g_2(x)=0$ 的话，我们是需要优化它的，又因为他们本身的条件是小于0的，所以最终的公式推导上表明，是要乘以一个正系数 $\alpha$ 作为他们梯度增长的倍数，而那些不需要管的 $g(x)$ 为了统一表示，这个时候可以将这个系数设置为0，那么这一项在这一次的优化中就没有了。那么把这两种综合起来就可以表示为 $\sum\alpha_ig_i(x)=0，\alpha_i\ge0$。也即是某次的 $g(x)$ 在为最优解起作用，那么它的系数值(可以)不为0。如果某次 $g(x)$ 没有为下一次的最优解$x$的获得起到作用，那么它的系数就必须为0，这就是这个公式的含义。<br>用一句话来说就是：<em>*凸优化问题的最优解在约束条件构成的边界上</em></em></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://liulinyun.github.io/2018/03/29/各种决策树/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -534,7 +886,7 @@
 & =1-\sum_{k=1}^{|\mathcal Y|}p_k^2
 \end{aligned}</script><p>直观来说，$D$ 的基尼值反映了从数据集 $D$ 中随机抽取两个样本，其类别标记不一样的概率。因此，基尼值越小，则数据集的纯度越高。<br>类似信息增益的定义，属性 $a$ 的基尼指数定义为</p>
 <script type="math/tex; mode=display">\text{Gini_index}(D,a) = \sum_{v=1}^V {\frac {|D^v|}{|D|} \text{Gini}(D^v)}</script><p>于是，我们在候选属性集 $A$ 中，选择基尼指数最小的属性作为最有划分属性，即 $a_* = \arg \displaystyle \min_{a \in A} \text{Gini_index}(D,a)$。</p>
-<h2 id="3-剪枝"><a href="#3-剪枝" class="headerlink" title="3 剪枝"></a>3 剪枝</h2><h3 id="3-1-预剪枝"><a href="#3-1-预剪枝" class="headerlink" title="3.1 预剪枝"></a>3.1 预剪枝</h3><h3 id="3-2-后剪枝"><a href="#3-2-后剪枝" class="headerlink" title="3.2 后剪枝"></a>3.2 后剪枝</h3><h2 id="4-连续与缺失值"><a href="#4-连续与缺失值" class="headerlink" title="4 连续与缺失值"></a>4 连续与缺失值</h2><h3 id="4-1-连续值处理"><a href="#4-1-连续值处理" class="headerlink" title="4.1 连续值处理"></a>4.1 连续值处理</h3><h3 id="4-2-缺失值处理"><a href="#4-2-缺失值处理" class="headerlink" title="4.2 缺失值处理"></a>4.2 缺失值处理</h3>
+
           
         
       
@@ -743,7 +1095,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-count">4</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>

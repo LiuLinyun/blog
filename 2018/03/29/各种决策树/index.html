@@ -91,7 +91,7 @@
 <meta property="og:description" content="各种决策树1.基本决策树算法决策树算法的基本流程如下：  输入：训练集 $D = \{(\boldsymbol x_1,y_1),(\boldsymbol x_2,y_2,\dots,(\boldsymbol x_m,y_m)\}$；$\quad\quad$ 属性集 $A=\{a_1,a_2,\dots,a_d\}$过程：函数 TreeGenerate($D,A$)  生成节点 node； if">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://liulinyun.github.io/2018/03/29/各种决策树/决策树执行过程.jpg">
-<meta property="og:updated_time" content="2018-03-29T07:44:13.022Z">
+<meta property="og:updated_time" content="2018-03-29T07:50:38.753Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="各种决策树">
 <meta name="twitter:description" content="各种决策树1.基本决策树算法决策树算法的基本流程如下：  输入：训练集 $D = \{(\boldsymbol x_1,y_1),(\boldsymbol x_2,y_2,\dots,(\boldsymbol x_m,y_m)\}$；$\quad\quad$ 属性集 $A=\{a_1,a_2,\dots,a_d\}$过程：函数 TreeGenerate($D,A$)  生成节点 node； if">
@@ -532,7 +532,7 @@
 & =1-\sum_{k=1}^{|\mathcal Y|}p_k^2
 \end{aligned}</script><p>直观来说，$D$ 的基尼值反映了从数据集 $D$ 中随机抽取两个样本，其类别标记不一样的概率。因此，基尼值越小，则数据集的纯度越高。<br>类似信息增益的定义，属性 $a$ 的基尼指数定义为</p>
 <script type="math/tex; mode=display">\text{Gini_index}(D,a) = \sum_{v=1}^V {\frac {|D^v|}{|D|} \text{Gini}(D^v)}</script><p>于是，我们在候选属性集 $A$ 中，选择基尼指数最小的属性作为最有划分属性，即 $a_* = \arg \displaystyle \min_{a \in A} \text{Gini_index}(D,a)$。</p>
-<h2 id="3-剪枝"><a href="#3-剪枝" class="headerlink" title="3 剪枝"></a>3 剪枝</h2><h3 id="3-1-预剪枝"><a href="#3-1-预剪枝" class="headerlink" title="3.1 预剪枝"></a>3.1 预剪枝</h3><h3 id="3-2-后剪枝"><a href="#3-2-后剪枝" class="headerlink" title="3.2 后剪枝"></a>3.2 后剪枝</h3><h2 id="4-连续与缺失值"><a href="#4-连续与缺失值" class="headerlink" title="4 连续与缺失值"></a>4 连续与缺失值</h2><h3 id="4-1-连续值处理"><a href="#4-1-连续值处理" class="headerlink" title="4.1 连续值处理"></a>4.1 连续值处理</h3><h3 id="4-2-缺失值处理"><a href="#4-2-缺失值处理" class="headerlink" title="4.2 缺失值处理"></a>4.2 缺失值处理</h3>
+
       
     </div>
     
@@ -565,6 +565,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/03/29/拉格朗日乘子法和KKT条件/" rel="prev" title="拉格朗日乘子法和KKT条件">
+                拉格朗日乘子法和KKT条件 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -641,7 +645,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-count">4</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -694,7 +698,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#各种决策树"><span class="nav-number">1.</span> <span class="nav-text">各种决策树</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-基本决策树算法"><span class="nav-number">1.1.</span> <span class="nav-text">1.基本决策树算法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-划分选择"><span class="nav-number">1.2.</span> <span class="nav-text">2.划分选择</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-信息增益"><span class="nav-number">1.2.1.</span> <span class="nav-text">2.1 信息增益</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-信息增益率"><span class="nav-number">1.2.2.</span> <span class="nav-text">2.2 信息增益率</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-基尼指数"><span class="nav-number">1.2.3.</span> <span class="nav-text">2.3 基尼指数</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-剪枝"><span class="nav-number">1.3.</span> <span class="nav-text">3 剪枝</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-预剪枝"><span class="nav-number">1.3.1.</span> <span class="nav-text">3.1 预剪枝</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-后剪枝"><span class="nav-number">1.3.2.</span> <span class="nav-text">3.2 后剪枝</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-连续与缺失值"><span class="nav-number">1.4.</span> <span class="nav-text">4 连续与缺失值</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#4-1-连续值处理"><span class="nav-number">1.4.1.</span> <span class="nav-text">4.1 连续值处理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-2-缺失值处理"><span class="nav-number">1.4.2.</span> <span class="nav-text">4.2 缺失值处理</span></a></li></ol></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#各种决策树"><span class="nav-number">1.</span> <span class="nav-text">各种决策树</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-基本决策树算法"><span class="nav-number">1.1.</span> <span class="nav-text">1.基本决策树算法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-划分选择"><span class="nav-number">1.2.</span> <span class="nav-text">2.划分选择</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-信息增益"><span class="nav-number">1.2.1.</span> <span class="nav-text">2.1 信息增益</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-信息增益率"><span class="nav-number">1.2.2.</span> <span class="nav-text">2.2 信息增益率</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-基尼指数"><span class="nav-number">1.2.3.</span> <span class="nav-text">2.3 基尼指数</span></a></li></ol></li></ol></li></ol></div>
             
 
           </div>
