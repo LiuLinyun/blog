@@ -318,13 +318,13 @@
 <li>if $A = \varnothing$ OR $D$ 中样本在 $A$ 上取值相同 then</li>
 <li>$\quad$ 将 node 标记为叶节点，其类别标记为 $D$ 中样本数最多的类；return</li>
 <li>end if</li>
-<li>从 $A$ 中选择最优划分属性 $a_*$ 作为 node 划分属性；  //<strong>关键在于如何选择最优划分属性</strong></li>
-<li>for $a_<em>$ 中的每一个值 $a_</em>^v$ do</li>
-<li>$\quad$ 为 node 生成一个分支；令 $D_v$ 表示 $D$ 中在 $a_<em>$ 上取值为 $a_</em>^v$ 的样本子集；</li>
+<li>从 $A$ 中选择最优划分属性 $a_<em>$ 作为 node 划分属性；  //<em>*关键在于如何选择最优划分属性</em></em></li>
+<li>for $a<em>*$ 中的每一个值 $a</em>*^v$ do</li>
+<li>$\quad$ 为 node 生成一个分支；令 $D<em>v$ 表示 $D$ 中在 $a</em><em>$ 上取值为 $a_</em>^v$ 的样本子集；</li>
 <li>$\quad$ if $D_v$ 为空 then</li>
 <li>$\quad \quad$ 将分支结点标记为叶节点，其类别标记为 $D$ 中样本最多的类；return</li>
 <li>$\quad$ else</li>
-<li>$\quad \quad$ 以 TreeGenerate($D_v,A \setminus {a_*}$) 为分支结点</li>
+<li>$\quad \quad$ 以 TreeGenerate($D<em>v,A \setminus {a</em>*}$) 为分支结点</li>
 <li>$\quad$ end if</li>
 <li>end for</li>
 </ol>
@@ -332,6 +332,7 @@
 <hr>
 <p>从决策树算法的基本流程可以看出，有以下情形会导致递归返回：<br>（1）当前结点包含的样本全属于同一类别，无需划分；<br>（2）当前属性集为空，无法划分（这种情况出现在最长的划分路径末端，所有属性都被用过为划分属性，但是样本集合中还剩下异类样本）；<br>（3）所有样本在所有属性值上取值相同，无法划分；<br>（4）当前结点包含的样本集合为空，不能划分。</p>
 <p>举个栗子：<br>来自西瓜数据集2</p>
+<div class="table-container">
 <table>
 <thead>
 <tr>
@@ -518,11 +519,21 @@
 </tr>
 </tbody>
 </table>
+</div>
 <p>假设我们以<strong>信息熵</strong>（后面会讲）作为最优划分属性的选择标准，决策树的执行流程如下图所示<br><img src="/2018/03/29/各种决策树/src/决策树执行过程.jpg" alt="决策树执行过程"></p>
-<h2 id="2-划分选择"><a href="#2-划分选择" class="headerlink" title="2.划分选择"></a>2.划分选择</h2><h3 id="2-1-信息增益"><a href="#2-1-信息增益" class="headerlink" title="2.1 信息增益"></a>2.1 信息增益</h3><p>“信息熵”是度量样本集合纯度最常用的一种指标。假定当前样本集合 $D$ 中第 $k$ 类样本所占的比例为 $p_k \quad (k=1,2,\dots,|\mathcal Y|)$，则 $D$ 的信息熵定义为<br>$$ \text{Ent}(D) = - \sum_{k=1}^{|\mathcal Y|} {p_k \log_2 p_k}$$<br>信息熵越小，则 $D$ 的纯度越高。</p>
-<p>假定离散属性 $a$ 有 $V$ 个可能的取值 ${a^1,a^2,\dots,a^V}$，若使用 $a$ 来对样本集 $D$ 进行划分，则会产生 $V$ 个分支节点，其中第 $v$ 个结点包含了 $D$ 中所有在属性 $a$ 上取值为 $a^v$ 的样本，记为 $D^v$。我们可根据上式计算出 $D^v$ 的信息熵，再考虑到不同分支结点所包含的样本数不同，给分支结点赋予权重 $|D^v|/|D|$，即样本数最多的分支结点的影响最大，于是可以计算出用属性 $a$ 对样本集 $D$ 进行划分所获得的“信息增益”<br>$$ \text{Gain} (D,a) = \text{Ent}(D) - \sum_{v=1}^V {\frac {|D^v|}{|D|} \text{Ent}(D^v)} $$<br>一般而言，信息增益越大，意味着使用属性 $a$ 来划分所获得的“纯度提升”越大。因此可以选择属性 $a_* = \arg \displaystyle \max_{a \in A} \text{Gain}(D,a)$ 来划分属性。<br>使用信息增益作为准则来选择划分属性的决策树就是著名的 <strong>ID3决策树</strong>。</p>
-<h3 id="2-2-信息增益率"><a href="#2-2-信息增益率" class="headerlink" title="2.2 信息增益率"></a>2.2 信息增益率</h3><p><strong>C4.5决策树</strong>不直接使用信息增益，而是使用“信息增益率”来选择最优划分属性。增益率定义为<br>$$ \text{Gain_ratio}(D,a) = \frac {\text{Gain} (D,a)} {\text{IV}(a)}$$<br>其中<br>$$ \text{IV}(a) = - \sum_{v=1}^V{\frac {|D^v|}{|D|} \log_2 \frac {|D^v|}{|D|}} $$<br>称为属性 $a$ 的“固有值”。属性 $a$ 的可能取值数目越多（$V$ 越大），则 $\text{IV}(a)$ 的值通常会越大。因此，直接按增益率来选择可能对取值数目较少的属性有所偏好，因此，C4.5 不直接选择增益率最大的候选划分属性，而是使用一个启发式：<strong>先从候选划分属性中找出信息增益高于平均水平的属性，再从中选择增益率最高的那个，作为最后选择的最优划分属性。</strong></p>
-<h3 id="2-3-基尼指数"><a href="#2-3-基尼指数" class="headerlink" title="2.3 基尼指数"></a>2.3 基尼指数</h3><p><strong>CART决策树</strong> 使用“基尼指数”来选择划分属性。数据集 $D$ 的纯度如果用基尼值来衡量则为<br>$$ \begin{aligned}<br>\text{Gini}(D) &amp; = \sum_{k=1}^{|\mathcal Y|} \sum_{k’ \neq k} p_k p_{k’} \<br>&amp; =1-\sum_{k=1}^{|\mathcal Y|}p_k^2<br>\end{aligned}$$<br>直观来说，$D$ 的基尼值反映了从数据集 $D$ 中随机抽取两个样本，其类别标记不一样的概率。因此，基尼值越小，则数据集的纯度越高。<br>类似信息增益的定义，属性 $a$ 的基尼指数定义为<br>$$ \text{Gini_index}(D,a) = \sum_{v=1}^V {\frac {|D^v|}{|D|} \text{Gini}(D^v)} $$<br>于是，我们在候选属性集 $A$ 中，选择基尼指数最小的属性作为最有划分属性，即 $a_* = \arg \displaystyle \min_{a \in A} \text{Gini_index}(D,a)$。</p>
+<h2 id="2-划分选择"><a href="#2-划分选择" class="headerlink" title="2.划分选择"></a>2.划分选择</h2><h3 id="2-1-信息增益"><a href="#2-1-信息增益" class="headerlink" title="2.1 信息增益"></a>2.1 信息增益</h3><p>“信息熵”是度量样本集合纯度最常用的一种指标。假定当前样本集合 $D$ 中第 $k$ 类样本所占的比例为 $p_k \quad (k=1,2,\dots,|\mathcal Y|)$，则 $D$ 的信息熵定义为</p>
+<script type="math/tex; mode=display">\text{Ent}(D) = - \sum_{k=1}^{|\mathcal Y|} {p_k \log_2 p_k}</script><p>信息熵越小，则 $D$ 的纯度越高。</p>
+<p>假定离散属性 $a$ 有 $V$ 个可能的取值 ${a^1,a^2,\dots,a^V}$，若使用 $a$ 来对样本集 $D$ 进行划分，则会产生 $V$ 个分支节点，其中第 $v$ 个结点包含了 $D$ 中所有在属性 $a$ 上取值为 $a^v$ 的样本，记为 $D^v$。我们可根据上式计算出 $D^v$ 的信息熵，再考虑到不同分支结点所包含的样本数不同，给分支结点赋予权重 $|D^v|/|D|$，即样本数最多的分支结点的影响最大，于是可以计算出用属性 $a$ 对样本集 $D$ 进行划分所获得的“信息增益”</p>
+<script type="math/tex; mode=display">\text{Gain} (D,a) = \text{Ent}(D) - \sum_{v=1}^V {\frac {|D^v|}{|D|} \text{Ent}(D^v)}</script><p>一般而言，信息增益越大，意味着使用属性 $a$ 来划分所获得的“纯度提升”越大。因此可以选择属性 $a<em>* = \arg \displaystyle \max</em>{a \in A} \text{Gain}(D,a)$ 来划分属性。<br>使用信息增益作为准则来选择划分属性的决策树就是著名的 <strong>ID3决策树</strong>。</p>
+<h3 id="2-2-信息增益率"><a href="#2-2-信息增益率" class="headerlink" title="2.2 信息增益率"></a>2.2 信息增益率</h3><p><strong>C4.5决策树</strong>不直接使用信息增益，而是使用“信息增益率”来选择最优划分属性。增益率定义为</p>
+<script type="math/tex; mode=display">\text{Gain_ratio}(D,a) = \frac {\text{Gain} (D,a)} {\text{IV}(a)}</script><p>其中</p>
+<script type="math/tex; mode=display">\text{IV}(a) = - \sum_{v=1}^V{\frac {|D^v|}{|D|} \log_2 \frac {|D^v|}{|D|}}</script><p>称为属性 $a$ 的“固有值”。属性 $a$ 的可能取值数目越多（$V$ 越大），则 $\text{IV}(a)$ 的值通常会越大。因此，直接按增益率来选择可能对取值数目较少的属性有所偏好，因此，C4.5 不直接选择增益率最大的候选划分属性，而是使用一个启发式：<strong>先从候选划分属性中找出信息增益高于平均水平的属性，再从中选择增益率最高的那个，作为最后选择的最优划分属性。</strong></p>
+<h3 id="2-3-基尼指数"><a href="#2-3-基尼指数" class="headerlink" title="2.3 基尼指数"></a>2.3 基尼指数</h3><p><strong>CART决策树</strong> 使用“基尼指数”来选择划分属性。数据集 $D$ 的纯度如果用基尼值来衡量则为</p>
+<script type="math/tex; mode=display">\begin{aligned}
+\text{Gini}(D) & = \sum_{k=1}^{|\mathcal Y|} \sum_{k' \neq k} p_k p_{k'} \\
+& =1-\sum_{k=1}^{|\mathcal Y|}p_k^2
+\end{aligned}</script><p>直观来说，$D$ 的基尼值反映了从数据集 $D$ 中随机抽取两个样本，其类别标记不一样的概率。因此，基尼值越小，则数据集的纯度越高。<br>类似信息增益的定义，属性 $a$ 的基尼指数定义为</p>
+<script type="math/tex; mode=display">\text{Gini_index}(D,a) = \sum_{v=1}^V {\frac {|D^v|}{|D|} \text{Gini}(D^v)}</script><p>于是，我们在候选属性集 $A$ 中，选择基尼指数最小的属性作为最有划分属性，即 $a<em>* = \arg \displaystyle \min</em>{a \in A} \text{Gini_index}(D,a)$。</p>
 
           
         
@@ -651,8 +662,7 @@
 <p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
 <h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
 <p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>
-<p>$$ E=mc^2 \tag{1} $$</p>
-
+<script type="math/tex; mode=display">E=mc^2 \tag{1}</script>
           
         
       
