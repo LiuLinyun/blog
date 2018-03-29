@@ -91,7 +91,8 @@
 <meta property="og:description" content="第六章 支持向量机 6.1 间隔与支持向量 给定训练样本集 \(D=\lbrace (\boldsymbol x_1,y_1),(\boldsymbol x_2,y_2), \dots ,(\boldsymbol x_m,y_m) \rbrace, y_i\in\lbrace -1, +1 \rbrace\) , 分类学习最基本的想法就是训练集 \(D\) 在样本空间中找到一个划分超平面，将不同类">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://liulinyun.github.io/2018/03/29/支持向量机/支持向量机_图6_1.png">
-<meta property="og:updated_time" content="2018-03-29T07:56:39.971Z">
+<meta property="og:image" content="https://liulinyun.github.io/2018/03/29/支持向量机/支持向量机_图6_2.jpg">
+<meta property="og:updated_time" content="2018-03-29T09:09:31.730Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="支持向量机">
 <meta name="twitter:description" content="第六章 支持向量机 6.1 间隔与支持向量 给定训练样本集 \(D=\lbrace (\boldsymbol x_1,y_1),(\boldsymbol x_2,y_2), \dots ,(\boldsymbol x_m,y_m) \rbrace, y_i\in\lbrace -1, +1 \rbrace\) , 分类学习最基本的想法就是训练集 \(D\) 在样本空间中找到一个划分超平面，将不同类">
@@ -316,7 +317,7 @@
 \boldsymbol{w^Tx}_i + b \leqslant -1, &amp; y_i=-1 \\
 \end{cases} \tag{6.3} \]</span></p>
 <p>如图6.2所示，距离超平面最近的这几个训练样本使上式的等号成立，它们被称为“支持向量”，两个异类支持向量到超平面的距离之和为 <span class="math display">\[ \gamma = \frac 2 {\| \boldsymbol w \|} \tag{6.4}\]</span> 它被称为“间隔”</p>
-<p><embed src="支持向量机/支持向量机_图6_2.jepg"> <strong>图6.2</strong> 支持向量与间隔</p>
+<p><img src="/2018/03/29/支持向量机/支持向量机_图6_2.jpg" alt="图6.2 支持向量与间隔"> <strong>图6.2</strong> 支持向量与间隔</p>
 <p>欲找到具有“最大间隔”的划分超平面，也就是要找到参数 <span class="math inline">\(\boldsymbol w\)</span> 和 <span class="math inline">\(b\)</span>，使得 <span class="math inline">\(\gamma\)</span> 最大，即 <span class="math display">\[ \begin{aligned} 
 \max_{\boldsymbol w,b} \quad  &amp; \frac 2 {\| \boldsymbol w \|} \\ 
 s.t. \quad &amp; y_i(\boldsymbol {w^Tx}_i + b) \geqslant 1, \quad i=1,2,\dots,m.

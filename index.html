@@ -318,7 +318,7 @@
 \boldsymbol{w^Tx}_i + b \leqslant -1, &amp; y_i=-1 \\
 \end{cases} \tag{6.3} \]</span></p>
 <p>如图6.2所示，距离超平面最近的这几个训练样本使上式的等号成立，它们被称为“支持向量”，两个异类支持向量到超平面的距离之和为 <span class="math display">\[ \gamma = \frac 2 {\| \boldsymbol w \|} \tag{6.4}\]</span> 它被称为“间隔”</p>
-<p><embed src="支持向量机/支持向量机_图6_2.jepg"> <strong>图6.2</strong> 支持向量与间隔</p>
+<p><img src="/2018/03/29/支持向量机/支持向量机_图6_2.jpg" alt="图6.2 支持向量与间隔"> <strong>图6.2</strong> 支持向量与间隔</p>
 <p>欲找到具有“最大间隔”的划分超平面，也就是要找到参数 <span class="math inline">\(\boldsymbol w\)</span> 和 <span class="math inline">\(b\)</span>，使得 <span class="math inline">\(\gamma\)</span> 最大，即 <span class="math display">\[ \begin{aligned} 
 \max_{\boldsymbol w,b} \quad  &amp; \frac 2 {\| \boldsymbol w \|} \\ 
 s.t. \quad &amp; y_i(\boldsymbol {w^Tx}_i + b) \geqslant 1, \quad i=1,2,\dots,m.
