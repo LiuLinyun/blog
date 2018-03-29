@@ -83,18 +83,18 @@
 
 
 
-<meta name="description" content="各种决策树1.基本决策树算法决策树算法的基本流程如下：  输入：训练集 $D = {(\boldsymbol x_1,y_1),(\boldsymbol x_2,y_2,\dots,(\boldsymbol x_m,y_m)}$；$\quad\quad$ 属性集 $A={a_1,a_2,\dots,a_d}$过程：函数 TreeGenerate($D,A$)  生成节点 node； if $D$">
+<meta name="description" content="各种决策树1.基本决策树算法决策树算法的基本流程如下：  输入：训练集 $D = \{(\boldsymbol x_1,y_1),(\boldsymbol x_2,y_2,\dots,(\boldsymbol x_m,y_m)\}$；$\quad\quad$ 属性集 $A=\{a_1,a_2,\dots,a_d\}$过程：函数 TreeGenerate($D,A$)  生成节点 node； if">
 <meta property="og:type" content="article">
 <meta property="og:title" content="各种决策树">
 <meta property="og:url" content="http://yoursite.com/2018/03/29/各种决策树/index.html">
 <meta property="og:site_name" content="我的学习笔记">
-<meta property="og:description" content="各种决策树1.基本决策树算法决策树算法的基本流程如下：  输入：训练集 $D = {(\boldsymbol x_1,y_1),(\boldsymbol x_2,y_2,\dots,(\boldsymbol x_m,y_m)}$；$\quad\quad$ 属性集 $A={a_1,a_2,\dots,a_d}$过程：函数 TreeGenerate($D,A$)  生成节点 node； if $D$">
+<meta property="og:description" content="各种决策树1.基本决策树算法决策树算法的基本流程如下：  输入：训练集 $D = \{(\boldsymbol x_1,y_1),(\boldsymbol x_2,y_2,\dots,(\boldsymbol x_m,y_m)\}$；$\quad\quad$ 属性集 $A=\{a_1,a_2,\dots,a_d\}$过程：函数 TreeGenerate($D,A$)  生成节点 node； if">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://yoursite.com/2018/03/29/各种决策树/src/决策树执行过程.jpg">
-<meta property="og:updated_time" content="2018-03-29T06:37:08.488Z">
+<meta property="og:updated_time" content="2018-03-29T07:33:15.138Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="各种决策树">
-<meta name="twitter:description" content="各种决策树1.基本决策树算法决策树算法的基本流程如下：  输入：训练集 $D = {(\boldsymbol x_1,y_1),(\boldsymbol x_2,y_2,\dots,(\boldsymbol x_m,y_m)}$；$\quad\quad$ 属性集 $A={a_1,a_2,\dots,a_d}$过程：函数 TreeGenerate($D,A$)  生成节点 node； if $D$">
+<meta name="twitter:description" content="各种决策树1.基本决策树算法决策树算法的基本流程如下：  输入：训练集 $D = \{(\boldsymbol x_1,y_1),(\boldsymbol x_2,y_2,\dots,(\boldsymbol x_m,y_m)\}$；$\quad\quad$ 属性集 $A=\{a_1,a_2,\dots,a_d\}$过程：函数 TreeGenerate($D,A$)  生成节点 node； if">
 <meta name="twitter:image" content="http://yoursite.com/2018/03/29/各种决策树/src/决策树执行过程.jpg">
 
 
@@ -307,7 +307,7 @@
       
         <h1 id="各种决策树"><a href="#各种决策树" class="headerlink" title="各种决策树"></a>各种决策树</h1><h2 id="1-基本决策树算法"><a href="#1-基本决策树算法" class="headerlink" title="1.基本决策树算法"></a>1.基本决策树算法</h2><p>决策树算法的基本流程如下：</p>
 <hr>
-<p><strong>输入</strong>：训练集 $D = {(\boldsymbol x_1,y_1),(\boldsymbol x_2,y_2,\dots,(\boldsymbol x_m,y_m)}$；<br>$\quad\quad$ 属性集 $A={a_1,a_2,\dots,a_d}$<br><strong>过程</strong>：函数 TreeGenerate($D,A$)</p>
+<p><strong>输入</strong>：训练集 $D = \{(\boldsymbol x_1,y_1),(\boldsymbol x_2,y_2,\dots,(\boldsymbol x_m,y_m)\}$；<br>$\quad\quad$ 属性集 $A=\{a_1,a_2,\dots,a_d\}$<br><strong>过程</strong>：函数 TreeGenerate($D,A$)</p>
 <ol>
 <li>生成节点 node；</li>
 <li>if $D$ 中样本属于同一类别 $C$ then</li>
@@ -317,12 +317,12 @@
 <li>$\quad$ 将 node 标记为叶节点，其类别标记为 $D$ 中样本数最多的类；return</li>
 <li>end if</li>
 <li>从 $A$ 中选择最优划分属性 $a_<em>$ 作为 node 划分属性；  //<em>*关键在于如何选择最优划分属性</em></em></li>
-<li>for $a<em>*$ 中的每一个值 $a</em>*^v$ do</li>
-<li>$\quad$ 为 node 生成一个分支；令 $D<em>v$ 表示 $D$ 中在 $a</em><em>$ 上取值为 $a_</em>^v$ 的样本子集；</li>
+<li>for $a_<em>$ 中的每一个值 $a_</em>^v$ do</li>
+<li>$\quad$ 为 node 生成一个分支；令 $D_v$ 表示 $D$ 中在 $a_<em>$ 上取值为 $a_</em>^v$ 的样本子集；</li>
 <li>$\quad$ if $D_v$ 为空 then</li>
 <li>$\quad \quad$ 将分支结点标记为叶节点，其类别标记为 $D$ 中样本最多的类；return</li>
 <li>$\quad$ else</li>
-<li>$\quad \quad$ 以 TreeGenerate($D<em>v,A \setminus {a</em>*}$) 为分支结点</li>
+<li>$\quad \quad$ 以 TreeGenerate($D_v,A \setminus \{a_*\}$) 为分支结点</li>
 <li>$\quad$ end if</li>
 <li>end for</li>
 </ol>
@@ -521,8 +521,8 @@
 <p>假设我们以<strong>信息熵</strong>（后面会讲）作为最优划分属性的选择标准，决策树的执行流程如下图所示<br><img src="/2018/03/29/各种决策树/src/决策树执行过程.jpg" alt="决策树执行过程"></p>
 <h2 id="2-划分选择"><a href="#2-划分选择" class="headerlink" title="2.划分选择"></a>2.划分选择</h2><h3 id="2-1-信息增益"><a href="#2-1-信息增益" class="headerlink" title="2.1 信息增益"></a>2.1 信息增益</h3><p>“信息熵”是度量样本集合纯度最常用的一种指标。假定当前样本集合 $D$ 中第 $k$ 类样本所占的比例为 $p_k \quad (k=1,2,\dots,|\mathcal Y|)$，则 $D$ 的信息熵定义为</p>
 <script type="math/tex; mode=display">\text{Ent}(D) = - \sum_{k=1}^{|\mathcal Y|} {p_k \log_2 p_k}</script><p>信息熵越小，则 $D$ 的纯度越高。</p>
-<p>假定离散属性 $a$ 有 $V$ 个可能的取值 ${a^1,a^2,\dots,a^V}$，若使用 $a$ 来对样本集 $D$ 进行划分，则会产生 $V$ 个分支节点，其中第 $v$ 个结点包含了 $D$ 中所有在属性 $a$ 上取值为 $a^v$ 的样本，记为 $D^v$。我们可根据上式计算出 $D^v$ 的信息熵，再考虑到不同分支结点所包含的样本数不同，给分支结点赋予权重 $|D^v|/|D|$，即样本数最多的分支结点的影响最大，于是可以计算出用属性 $a$ 对样本集 $D$ 进行划分所获得的“信息增益”</p>
-<script type="math/tex; mode=display">\text{Gain} (D,a) = \text{Ent}(D) - \sum_{v=1}^V {\frac {|D^v|}{|D|} \text{Ent}(D^v)}</script><p>一般而言，信息增益越大，意味着使用属性 $a$ 来划分所获得的“纯度提升”越大。因此可以选择属性 $a<em>* = \arg \displaystyle \max</em>{a \in A} \text{Gain}(D,a)$ 来划分属性。<br>使用信息增益作为准则来选择划分属性的决策树就是著名的 <strong>ID3决策树</strong>。</p>
+<p>假定离散属性 $a$ 有 $V$ 个可能的取值 $\{a^1,a^2,\dots,a^V\}$，若使用 $a$ 来对样本集 $D$ 进行划分，则会产生 $V$ 个分支节点，其中第 $v$ 个结点包含了 $D$ 中所有在属性 $a$ 上取值为 $a^v$ 的样本，记为 $D^v$。我们可根据上式计算出 $D^v$ 的信息熵，再考虑到不同分支结点所包含的样本数不同，给分支结点赋予权重 $|D^v|/|D|$，即样本数最多的分支结点的影响最大，于是可以计算出用属性 $a$ 对样本集 $D$ 进行划分所获得的“信息增益”</p>
+<script type="math/tex; mode=display">\text{Gain} (D,a) = \text{Ent}(D) - \sum_{v=1}^V {\frac {|D^v|}{|D|} \text{Ent}(D^v)}</script><p>一般而言，信息增益越大，意味着使用属性 $a$ 来划分所获得的“纯度提升”越大。因此可以选择属性 $a_<em> = \arg \displaystyle \max_{a \in A} \text{Gain}(D,a)$ 来划分属性。<br>使用信息增益作为准则来选择划分属性的决策树就是著名的 <em>*ID3决策树</em></em>。</p>
 <h3 id="2-2-信息增益率"><a href="#2-2-信息增益率" class="headerlink" title="2.2 信息增益率"></a>2.2 信息增益率</h3><p><strong>C4.5决策树</strong>不直接使用信息增益，而是使用“信息增益率”来选择最优划分属性。增益率定义为</p>
 <script type="math/tex; mode=display">\text{Gain_ratio}(D,a) = \frac {\text{Gain} (D,a)} {\text{IV}(a)}</script><p>其中</p>
 <script type="math/tex; mode=display">\text{IV}(a) = - \sum_{v=1}^V{\frac {|D^v|}{|D|} \log_2 \frac {|D^v|}{|D|}}</script><p>称为属性 $a$ 的“固有值”。属性 $a$ 的可能取值数目越多（$V$ 越大），则 $\text{IV}(a)$ 的值通常会越大。因此，直接按增益率来选择可能对取值数目较少的属性有所偏好，因此，C4.5 不直接选择增益率最大的候选划分属性，而是使用一个启发式：<strong>先从候选划分属性中找出信息增益高于平均水平的属性，再从中选择增益率最高的那个，作为最后选择的最优划分属性。</strong></p>
@@ -531,7 +531,7 @@
 \text{Gini}(D) & = \sum_{k=1}^{|\mathcal Y|} \sum_{k' \neq k} p_k p_{k'} \\
 & =1-\sum_{k=1}^{|\mathcal Y|}p_k^2
 \end{aligned}</script><p>直观来说，$D$ 的基尼值反映了从数据集 $D$ 中随机抽取两个样本，其类别标记不一样的概率。因此，基尼值越小，则数据集的纯度越高。<br>类似信息增益的定义，属性 $a$ 的基尼指数定义为</p>
-<script type="math/tex; mode=display">\text{Gini_index}(D,a) = \sum_{v=1}^V {\frac {|D^v|}{|D|} \text{Gini}(D^v)}</script><p>于是，我们在候选属性集 $A$ 中，选择基尼指数最小的属性作为最有划分属性，即 $a<em>* = \arg \displaystyle \min</em>{a \in A} \text{Gini_index}(D,a)$。</p>
+<script type="math/tex; mode=display">\text{Gini_index}(D,a) = \sum_{v=1}^V {\frac {|D^v|}{|D|} \text{Gini}(D^v)}</script><p>于是，我们在候选属性集 $A$ 中，选择基尼指数最小的属性作为最有划分属性，即 $a_* = \arg \displaystyle \min_{a \in A} \text{Gini_index}(D,a)$。</p>
 
       
     </div>
@@ -914,6 +914,26 @@
   
 
   
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
   
 
 
