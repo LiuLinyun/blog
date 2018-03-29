@@ -92,7 +92,7 @@
 <meta property="og:image" content="https://liulinyun.github.io/2018/03/29/反向传播细节/示例神经网络.jpg">
 <meta property="og:image" content="https://liulinyun.github.io/2018/03/29/反向传播细节/示例神经网络计算图.jpg">
 <meta property="og:image" content="https://liulinyun.github.io/2018/03/29/反向传播细节/梯度求解示例.jpg">
-<meta property="og:updated_time" content="2018-03-29T10:50:29.685Z">
+<meta property="og:updated_time" content="2018-03-29T12:33:24.149Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="反向传播细节">
 <meta name="twitter:image" content="https://liulinyun.github.io/2018/03/29/反向传播细节/计算图.png">
@@ -375,7 +375,7 @@ x_3^{(1)} &amp; x_3^{(2)} &amp; x_3^{(3)} &amp; x_3^{(4)}
 \vdots &amp; \vdots &amp; \vdots &amp; \vdots &amp; \vdots &amp; \vdots &amp; \vdots \\
 \frac {\partial f_{pq}}{\partial x_{11}} &amp; \cdots &amp; \frac {\partial f_{pq}}{\partial x_{m1}} &amp; \cdots &amp; \frac {\partial f_{pq}}{\partial x_{1n}} &amp; \cdots &amp; \frac {\partial f_{pq}}{\partial x_{mn}} \\
 \end{bmatrix}\]</span></p>
-<p>梯度矩阵 <span class="math inline">\(\bigtriangledown_{\boldsymbol X} \boldsymbol F(\boldsymbol X)={(\text D_\boldsymbol X \boldsymbol F(\boldsymbol X))}^T\)</span>，也就是说矩阵函数的梯度矩阵是其 Jacobian 矩阵的转置。 简单来说，就是转换成<strong>一组标量函数对向量的求导</strong>。 <strong>但是，矩阵函数并不适用类似标量函数的链式法则！！！</strong> 这部分参考 <em>张贤达《矩阵分析与应用（第二部）》3.1 Jacobian矩阵与梯度矩阵</em></p>
+<p>梯度矩阵 <span class="math inline">\(\bigtriangledown_{\boldsymbol X} \boldsymbol F(\boldsymbol X)={(\text D_\boldsymbol X \boldsymbol F(\boldsymbol X))}^T\)</span>，也就是说矩阵函数的梯度矩阵是其 Jacobian 矩阵的转置。 简单来说，就是转换成<strong>一组标量函数对向量的求导</strong>。 <strong>但是，矩阵函数并不适用类似标量函数的链式法则！！！</strong> 这部分参考 <em>张贤达《矩阵分析与应用（第二版）》3.1 Jacobian矩阵与梯度矩阵</em></p>
 
       
     </div>
@@ -440,6 +440,11 @@ x_3^{(1)} &amp; x_3^{(2)} &amp; x_3^{(3)} &amp; x_3^{(4)}
 
 
           
+
+  
+    <div class="comments" id="comments">
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8zNTMwMi8xMTgzOA=="></div>
+    </div>
 
   
 
@@ -737,6 +742,17 @@ x_3^{(1)} &amp; x_3^{(2)} &amp; x_3^{(3)} &amp; x_3^{(4)}
 
 
 
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
   
 
 
