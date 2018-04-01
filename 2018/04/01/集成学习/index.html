@@ -90,7 +90,7 @@
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://liulinyun.github.io/2018/04/01/集成学习/bagging示意图.jpg">
 <meta property="og:image" content="https://liulinyun.github.io/2018/04/01/集成学习/贪心算法示意图.jpg">
-<meta property="og:updated_time" content="2018-04-01T02:54:48.271Z">
+<meta property="og:updated_time" content="2018-04-01T02:58:53.753Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="集成学习">
 <meta name="twitter:image" content="https://liulinyun.github.io/2018/04/01/集成学习/bagging示意图.jpg">
@@ -309,7 +309,10 @@
 <h2 id="一.-adaboost">一. AdaBoost</h2>
 <p>Boosting是一族将弱学习器提升为强学习器的算法。工作机制为：先从初始训练集训练出一个基学习器，再根据基学习器的表现对训练样本分布进行调整，使得先前基学习器做错的训练样本在后续得到更多关注，然后基于调整后的样本分布来训练下个基学习器；直到基学习器数目达到指定的数目 <span class="math inline">\(T\)</span>，最终将这 <span class="math inline">\(T\)</span> 个基学习器进行加权结合。</p>
 <p>AdaBoost算法：</p>
-<p><strong>输入</strong>：训练集 <span class="math inline">\(D=\{(\boldsymbol x_1,y_1),(\boldsymbol x_2,y_2),\dots,(\boldsymbol x_m, y_m) \},y_i \in \{-1,+1\}\)</span> <span class="math inline">\(\quad \quad\)</span> 基学习器算法 <span class="math inline">\(h\)</span> <span class="math inline">\(\quad \quad\)</span> 训练轮数 <span class="math inline">\(T\)</span> <strong>过程</strong>：</p>
+<p><strong>输入</strong>：训练集 <span class="math inline">\(D=\{(\boldsymbol x_1,y_1),(\boldsymbol x_2,y_2),\dots,(\boldsymbol x_m, y_m) \},y_i \in \{-1,+1\}\)</span></p>
+<p><span class="math inline">\(\quad \quad\)</span> 基学习器算法 <span class="math inline">\(h\)</span></p>
+<p><span class="math inline">\(\quad \quad\)</span> 训练轮数 <span class="math inline">\(T\)</span></p>
+<p><strong>过程</strong>：</p>
 <ol style="list-style-type: decimal">
 <li>初始化权重 <span class="math inline">\(w_{1,1},w_{2,1},\dots,w_{m,1}\)</span> 为 <span class="math inline">\(1/m\)</span>，其中 <span class="math inline">\(w_{i,j}\)</span> 表示第 <span class="math inline">\(i\)</span> 个样本在第 <span class="math inline">\(j\)</span> 次若学习器学习中损失函数的权重;</li>
 <li><strong>for</strong> <span class="math inline">\(t=1,2,\dots,T\)</span> <strong>do</strong></li>
