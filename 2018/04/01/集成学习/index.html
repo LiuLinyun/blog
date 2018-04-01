@@ -1,0 +1,934 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+  
+  
+  <link rel="stylesheet" media="all" href="/lib/Han/dist/han.min.css?v=3.3">
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+
+
+<meta property="og:type" content="article">
+<meta property="og:title" content="集成学习">
+<meta property="og:url" content="https://liulinyun.github.io/2018/04/01/集成学习/index.html">
+<meta property="og:site_name" content="流粼的学习笔记">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://liulinyun.github.io/2018/04/01/集成学习/bagging示意图.jpg">
+<meta property="og:image" content="https://liulinyun.github.io/2018/04/01/集成学习/贪心算法示意图.jpg">
+<meta property="og:updated_time" content="2018-04-01T02:54:48.271Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="集成学习">
+<meta name="twitter:image" content="https://liulinyun.github.io/2018/04/01/集成学习/bagging示意图.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://liulinyun.github.io/2018/04/01/集成学习/"/>
+
+
+
+
+
+  <title>集成学习 | 流粼的学习笔记</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">流粼的学习笔记</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">前方道路畅通！！！</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://liulinyun.github.io/2018/04/01/集成学习/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="流粼">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://www.sfs-cn.com/node3/node924/node27495/node27496/images/00236093.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="流粼的学习笔记">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">集成学习</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-04-01T10:44:36+08:00">
+                2018-04-01
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body han-init-context" itemprop="articleBody">
+
+      
+      
+
+      
+        <p id="section"><a id="more"></a></p>
+<h1 id="集成学习">集成学习</h1>
+<p>构建并结合多个学习器来完成学习任务。</p>
+<h2 id="一.-adaboost">一. AdaBoost</h2>
+<p>Boosting是一族将弱学习器提升为强学习器的算法。工作机制为：先从初始训练集训练出一个基学习器，再根据基学习器的表现对训练样本分布进行调整，使得先前基学习器做错的训练样本在后续得到更多关注，然后基于调整后的样本分布来训练下个基学习器；直到基学习器数目达到指定的数目 <span class="math inline">\(T\)</span>，最终将这 <span class="math inline">\(T\)</span> 个基学习器进行加权结合。</p>
+<p>AdaBoost算法：</p>
+<p><strong>输入</strong>：训练集 <span class="math inline">\(D=\{(\boldsymbol x_1,y_1),(\boldsymbol x_2,y_2),\dots,(\boldsymbol x_m, y_m) \},y_i \in \{-1,+1\}\)</span> <span class="math inline">\(\quad \quad\)</span> 基学习器算法 <span class="math inline">\(h\)</span> <span class="math inline">\(\quad \quad\)</span> 训练轮数 <span class="math inline">\(T\)</span> <strong>过程</strong>：</p>
+<ol style="list-style-type: decimal">
+<li>初始化权重 <span class="math inline">\(w_{1,1},w_{2,1},\dots,w_{m,1}\)</span> 为 <span class="math inline">\(1/m\)</span>，其中 <span class="math inline">\(w_{i,j}\)</span> 表示第 <span class="math inline">\(i\)</span> 个样本在第 <span class="math inline">\(j\)</span> 次若学习器学习中损失函数的权重;</li>
+<li><strong>for</strong> <span class="math inline">\(t=1,2,\dots,T\)</span> <strong>do</strong></li>
+<li><span class="math inline">\(\quad\)</span> 训练 <span class="math inline">\(h_t\)</span>，使其最小化带权重错误率 <span class="math inline">\(\epsilon_t =\displaystyle \sum^n_{\stackrel{i=1}{h_t(x_i)\neq y_i}} w_{i,t}\)</span></li>
+<li><span class="math inline">\(\quad\)</span> 计算第 <span class="math inline">\(t\)</span> 个基学习器的权重 <span class="math inline">\(\alpha_t = \frac 1 2 \ln \left(\dfrac{1-\epsilon_t}{\epsilon_t} \right)\)</span>；</li>
+<li><span class="math inline">\(\quad\)</span> 更新所有样本权重 <span class="math inline">\(w_{i,t+1} = w_{i,t} e^{-y_i \alpha_t h_t(\boldsymbol x_i)}, i=1,2,\dots,m\)</span></li>
+<li><span class="math inline">\(\quad\)</span> 归一化样本权重 <span class="math inline">\(w_{i,t+1}\)</span>，令其权重之和为 <span class="math inline">\(1\)</span>，即 <span class="math display">\[ w_{i,t+1} = \dfrac {w_{i,t} e^{-y_i \alpha_t h_t(\boldsymbol x_i)}}{\displaystyle\sum_{i=1}^m w_{i,t}e^{-y_i \alpha_t h_t(\boldsymbol x_i)}} \]</span> 可以证明 <span class="math display">\[\dfrac{\sum_{h_{t+1}(x_i) = y_i} w_{i,t+1}}{\sum_{h_{t+1}(x_i) \neq y_i} w_{i,t+1}} = \dfrac{\sum_{h_t(x_i) = y_i} w_{i,t}}{\sum_{h_t(x_i) \neq y_i} w_{i,t}}\]</span> 可以利用这个式子简化计算。</li>
+<li><strong>end for</strong></li>
+</ol>
+<p><strong>输出</strong>：<span class="math inline">\(H(\boldsymbol x) = \text{sign} \left(\sum_{t=1}^T{\alpha_t h_t(\boldsymbol x)} \right)\)</span> <strong>注：对于不同的基学习器，得到 <span class="math inline">\(h_t\)</span> 的方法不一样，要根据原理进行推导，重新定义 <span class="math inline">\(h_t\)</span> 的计算过程。</strong> 个人理解：相当于在原样本集合中按分布比例复制样本使得相同样本个数之比等于其权重之比，然后用原始的基学习算法去训练基学习器。当然，这只是这样理解，具体计算肯定要经过推导，简化带样本权重的基学习器学习过程，而不是放大样本集合再无脑训练。</p>
+<h2 id="二.-bagging">二. Bagging</h2>
+<p>bagging的大体算法描述流程图如下所示 <img src="/2018/04/01/集成学习/bagging示意图.jpg" alt="bagging算法流程图"></p>
+<p>其中随机采样的过程是，先随机从含有 <span class="math inline">\(m\)</span> 个样本的原始训练集中抽取一个样本放入采样集，然后放回原始训练集，这样下次仍然有可能被抽中，这样循环 <span class="math inline">\(m\)</span> 次，得到一个采样集。通过推理可以知道大约有 <span class="math inline">\(63.2\%\)</span> 的样本出现在采样集中。</p>
+<p>结合策略可以是 平均法（简单平均法、加权平均法）、投票法（绝对多数投票法、加权投票法）或 学习法（通过另一个学习器来结合）。</p>
+<h2 id="三.-随机森林rf">三. 随机森林（RF）</h2>
+<p>随机森林是 Bagging 的一个扩展变体。RF在以决策树作为基学习器构建 Bagging 集成的基础上，进一步在决策树的训练过程中引入了随机属性选择。具体来说，传统决策树在选择划分属性时是在当前结点的属性集合（假设有 <span class="math inline">\(d\)</span> 个属性）中选择一个最优属性；而在RF中，对基决策树的毎个结点，先中该结点的属性集合中随机选择一个包含 <span class="math inline">\(k\)</span> 个属性的子集，然后再中这个子集中选择最优划分属性用于划分。这里的参数 <span class="math inline">\(k\)</span> 控制了随机性的引入程度：若 <span class="math inline">\(k=d\)</span>，则基决策树的构建与传统决策树相同；若 <span class="math inline">\(k=1\)</span>，则是随机选择一个属性用于划分；一般情况下，推荐值 <span class="math inline">\(k=\log_2d\)</span>.</p>
+<h2 id="四.-gbdt梯度提升树">四. GBDT（梯度提升树）</h2>
+<h3 id="gbdt的负梯度拟合">GBDT的负梯度拟合</h3>
+<p>GBDT（Gradient Boosting Decison Tree）的主体思想是根据前一次得到的强学习器 <span class="math inline">\(f_{t-1}(\boldsymbol x)\)</span>，训练下一个弱学习器 <span class="math inline">\(h_t(\boldsymbol x)\)</span>，使得这次的强学习器 <span class="math inline">\(f_t(\boldsymbol x) = f_{t-1}(\boldsymbol x) + \beta_t h_t(\boldsymbol x),\quad \beta_t &gt; 0\)</span> 的损失函数 <span class="math inline">\(L(y,f_t(\boldsymbol x)) &lt; L(y, f_{t-1}(\boldsymbol x))\)</span>。如何实现呢——朝着 <span class="math inline">\(L\)</span> 下降的方向走不就OK了吗？对此，我们从得到的第 <span class="math inline">\(t\)</span> 个强分类器 <span class="math inline">\(f_t(\boldsymbol x)\)</span> 的损失函数的泰勒一阶展开说起。将 <span class="math inline">\(f(\boldsymbol x)\)</span> 整体看成自变量展开得到</p>
+<p><span class="math display">\[ \begin{aligned}
+L(y,f_t(\boldsymbol x)) &amp; = L(y, f_{t-1}(\boldsymbol x) + \beta_t h_t(\boldsymbol x)) \\
+&amp; = L(y, f_{t-1}(\boldsymbol x)) + \beta_t h_t(\boldsymbol x) \frac {\partial {L(y, f_{t-1}(\boldsymbol x))} } { {\partial {f_{t-1}(\boldsymbol x)} } } + R_1(f_t(\boldsymbol x))
+\end{aligned} \]</span></p>
+<p>其中 <span class="math inline">\(R_1\)</span> 是其一阶余项，可以认为是个极小值。</p>
+<p>为了在第 <span class="math inline">\(t\)</span> 次迭代后降低 <span class="math inline">\(L\)</span> 的值，只要上式的中间部分恒小于（理论上可能等于，对工程应用上来说影响不大）零即可，由于 <span class="math inline">\(\beta_t &gt; 0\)</span> 因此令</p>
+<p><span class="math display">\[  h_t(\boldsymbol x) = - \frac {\partial {L(y, f_{t-1}(\boldsymbol x))} } { {\partial {f_{t-1}(\boldsymbol x)} } } \]</span></p>
+<p>我们已经得到了 <span class="math inline">\(h_t\)</span>，现在只要优化求解 <span class="math inline">\(\beta_t\)</span>，显然这是一个一维搜索问题</p>
+<p><span class="math display">\[ \beta_t = \arg \min_{\beta_t} \sum_{i=1}^m L(y_i, f_{t-1}(\boldsymbol x_i) + \beta_t h_t(\boldsymbol x))\]</span></p>
+<p>如何去得到 <span class="math inline">\(h_t\)</span> 呢？这下CART决策树派上用场了，我们用一棵CART回归树来拟合第 <span class="math inline">\(t-1\)</span> 次得到的强学习器的损失函数的负梯度，这就是负梯度拟合的原理，也是梯度提升树名字的由来。</p>
+<p>以上讲的是梯度提升树的原理思想，具体到不同问题有具体的优化，比如对应分类问题和回归问题，尤其是二分类问题，有特定的优化方法，具体参考李航《统计学习方法》；对于不同的损失函数，也有不同的求解过程和优化手段，比较易于求解的是使用平方损失，这样梯度就变为为残差，求解十分便利。当然，具体问题具体分析才能发挥其最大威力。</p>
+<h3 id="实际使用的梯度提升树">实际使用的梯度提升树</h3>
+<p>以上是一般的梯度提升树的模型，在实际使用中，对于不同基函数、损失函数、分类或是回归问题，都不一样。</p>
+<p>当实际问题是个二分类问题，基函数是个基本分类器（只使用一个属性作为最优划分属性的单层决策树），损失函数为指数损失时，GBDT就退化为AdaBoost。</p>
+<p>当实际问题是个回归问题，基函数是个二叉决策回归树时，上面的基本模型能得到简化，基函数前面的系数 <span class="math inline">\(\beta_t\)</span> 可以省略，对于每一个系数，我们把它内化到二叉决策回归树中 <span class="math display">\[ \beta_t h_t(\boldsymbol x) \quad 把 \beta_t 内化到二叉回归树，\beta_th_t 整体变为——&gt; \quad h_t(\boldsymbol x) = \sum_{j=1}^J c_{mj}I(x \in R_{mj}) \]</span></p>
+<p>具体参考《统计学习方法》</p>
+<h3 id="gbdt常用损失函数">GBDT常用损失函数</h3>
+<p>对于分类算法，其损失函数一般有对数损失函数和指数损失函数</p>
+<p><strong>指数损失函数</strong>：<span class="math inline">\(L(y,f(\boldsymbol x)) = e^{-y f(\boldsymbol x)}\)</span><br>
+<strong>对数损失函数</strong>：<br>
+<span class="math inline">\(\quad \quad\)</span> 二元分类：<span class="math inline">\(L(y,f(\boldsymbol x)) = \log { (1 + e^{-y f(\boldsymbol x)} ) }\)</span>，其中 $ y { -1, +1 } $<br>
+<span class="math inline">\(\quad \quad\)</span> 多元分类：<span class="math inline">\(L(y,f(\boldsymbol x)) = - \displaystyle \sum_{k=1}^K {y_k \log p_k(\boldsymbol x)}\)</span>，其中如果样本输出类别为 <span class="math inline">\(k\)</span> 则 <span class="math inline">\(y_k = 1\)</span>，否则 <span class="math inline">\(y_k = 0\)</span>。<span class="math inline">\(p_k(\boldsymbol x) = \displaystyle \frac {e^{f_k(\boldsymbol x)} } { \sum_{i=1}^K e^{f_i(\boldsymbol x)} }\)</span></p>
+<p>对于回归算法，常用的损失函数有以下几种</p>
+<p><strong>均方损失</strong>：<span class="math inline">\(L(y,f(\boldsymbol x)) = {(y - f(\boldsymbol x))}^2\)</span><br>
+<strong>绝对损失</strong>：<span class="math inline">\(L(y,f(\boldsymbol x)) = |y - f(\boldsymbol x)|\)</span><br>
+<strong>Huber损失</strong>，它是均方损失和绝对损失的折衷，对于远离中心的异常点，采用绝对损失，而中心点附近的采用均方损失，这个分界点一般用分位数点 <span class="math inline">\(\delta\)</span> 度量，其损失函数如下：<br>
+<span class="math inline">\(L(y,f(\boldsymbol x)) = \begin{cases} \frac 1 2 (y-f(\boldsymbol x))^2, &amp; \quad |y-f(\boldsymbol x)| \leq \delta \\ \delta(|y-f(\boldsymbol x)| - \frac{\delta}{2}), &amp; \quad {|y-f(\boldsymbol x)| &gt; \delta} \end{cases}\)</span><br>
+<strong>分位数损失</strong>：<span class="math inline">\(L(y, f(\boldsymbol x)) =\displaystyle \sum_{y \geq f(\boldsymbol x)} \theta |y - f(\boldsymbol x)| + \displaystyle \sum_{y &lt; f(\boldsymbol x)} (1-\theta) |y-f(\boldsymbol x)|\)</span></p>
+<h3 id="gbdt的正则化">GBDT的正则化</h3>
+<p>为了防止过拟合，GBDT也需要正则化，其正则化方法主要有以下几种方式：<br>
+<strong>限定步长</strong>：将步长定义为 <span class="math inline">\(v\)</span>，对于前面的学习器迭代公式，则有 <span class="math display">\[ f_t(\boldsymbol x) = f_{t-1}(\boldsymbol x) + v h_t(\boldsymbol x) \]</span></p>
+<p><strong>子采样比例</strong>：子采样比例取值为 <span class="math inline">\((0,1]\)</span>。这里的子采样与随机森林不一样，随机森林的子采样是有放回采样，这里是不放回采样。。如果取值为 1，则等价于未使用子采样，如果小于 1，则相当于只有部分样本去做决策树拟合。推荐值在 <span class="math inline">\([0.5,0.8]\)</span> 之间。使用了子采样的梯度提升树也被称为<strong>随机梯度提升树</strong>。</p>
+<p><strong>剪枝处理</strong>：在每次迭代训练决策树的时候，使用剪枝方法来防止过拟合。</p>
+<h2 id="五.-xgboostxgbt">五. XGBoost（XGBT）</h2>
+<p>XGBT的目标函数为： <span class="math display">\[\begin{aligned}
+ J &amp; = \sum_{i=1}^m L(y_i, f_t(\boldsymbol x_i)) + \Omega(h_t) + C \\
+   &amp; = \sum_{i=1}^m L(y_i, f_{t-1}(\boldsymbol x_i) + h_t(\boldsymbol x)) + \Omega(h_t) + C 
+\end{aligned}\]</span></p>
+<p>根据泰勒二阶展开式：<span class="math inline">\(f(x+ \Delta x) \approx f(x) + f^\prime(x) \Delta x + \frac{1}{2}f^{\prime\prime}(x)\Delta x^2\)</span>，令</p>
+<p><span class="math display">\[ u_i= \frac{\partial L(y_i,f_{t-1}(\boldsymbol x_i))}{\partial f_{t-1}(\boldsymbol x_i)}, \quad v_i = \frac{\partial^2 L(y_i,f_{t-1}(\boldsymbol x_i))}{\partial f_{t-1}^2(\boldsymbol x_i)}\]</span></p>
+<p>将 <span class="math inline">\(J\)</span> 二阶展开</p>
+<p><span class="math display">\[ J \approx \sum_{i=1}^m\left[ L(y_i, f_{t-1}(\boldsymbol x_i)) + u_i h_t(\boldsymbol x_i) + \frac 1 2 v_i h_t^2(\boldsymbol x_i)\right] + \Omega(h_t) + C\]</span></p>
+<p>假定某决策树的叶节点数目为 <span class="math inline">\(T\)</span>，所有叶节点的权重为 <span class="math inline">\(\boldsymbol w = (w_1,w_2,\dots,w_T)\)</span>。弱学习器的决策树学习过程就是使用样本特征得到划分，拟合这些权重的过程。假设样本 <span class="math inline">\(\boldsymbol x\)</span> 落在第 <span class="math inline">\(q\)</span> 个叶节点中，定义弱学习器 <span class="math inline">\(h\)</span> 为 <span class="math inline">\(h_t(\boldsymbol x) = w_{q(\boldsymbol x)}\)</span></p>
+<p>对于正则项，<span class="math inline">\(\Omega(h_t) = \gamma^{T} + \frac{1}{2}\lambda \sum_{j=1}^T w_j^2\)</span></p>
+<p>则目标函数进一步简化</p>
+<p><span class="math display">\[\begin{aligned} J &amp; \approx \sum_{i=1}^m\left[ L(y_i, f_{t-1}(\boldsymbol x_i)) + u_i h_t(\boldsymbol x_i) + \frac 1 2 v_i h_t^2(\boldsymbol x_i)\right] + \Omega(h_t) + C \\
+&amp; = \sum_{i=1}^m \left[u_i h_t(\boldsymbol x_i) + \frac{1}{2}v_i h_i^2(\boldsymbol x_i)\right] + \Omega(f_t) + C  \quad //将上一次得到的 L 吸收到常数项 C \\
+&amp; = \sum_{i=1}^m \left[u_i w_{q(\boldsymbol x_i)} + \frac{1}{2}v_i w_{q(\boldsymbol x_i)}^2\right] + \gamma^T + \frac{1}{2}\lambda \sum_{j=1}^T w_j^2 + C \\
+&amp; =\sum_{j=1}^T \left[(\sum_{i \in I_j}u_i)w_j + \frac{1}{2}(\sum_{i \in I_j}v_i + \lambda)w_j^2\right]  +\gamma^T + C
+\end{aligned}\]</span></p>
+<p>定义 <span class="math display">\[U_j = \sum_{i \in I_j}u_i, \quad V_j = \sum_{i \in I_j}v_i\]</span></p>
+<p>从而 <span class="math display">\[ J \approx \sum_{j=1}^{T} \left[U_j w_j + \frac{1}{2}(V_j + \lambda)w_j^2\right]  +\gamma^ {T} + C \]</span></p>
+<p>上式对 <span class="math inline">\(w_j\)</span>求偏导，得 <span class="math display">\[\frac{\partial J}{\partial w_j} = U_j + (V_j + \lambda) w_j\]</span></p>
+<p>令其偏导为 <span class="math inline">\(0\)</span>，得到 <span class="math display">\[w_j^* = - \frac {U_j}{V_j + \lambda}\]</span></p>
+<p>代回目标代价函数，得到 <span class="math display">\[J = -\frac{1}{2} \sum_{j=1}^T \frac{U_j^2}{V_j+\lambda} + \gamma^T \quad //这里忽略常数项C\]</span></p>
+<p>剩下就是找到一个决策树，使得求得的 <span class="math inline">\(w^*\)</span> 最小，从而让 <span class="math inline">\(J\)</span> 最小。对于一个大的或者维度较多的训练样本集来说，枚举所有可能的决策树结构然后计算上面的代价损失函数值显然是不可能的，XGBT使用了一个贪心策略，每一次都尝试对已有的叶子节点加入一个新的分割。对于一个具体的分割方案，我们可以获得的增益由以下公式计算：</p>
+<p><span class="math display">\[ Gain=\frac{1}{2}[\frac{U_{L}^{2}}{V_{L}+\lambda}+\frac{U_{R}^{2}}{V_{R}+\lambda}-\frac{(U_{L}+U_{R})^2}{V_{L}+V_{R}+\lambda}]-\gamma \]</span></p>
+<p>观察这个式子，最后面有一个 <span class="math inline">\(\gamma\)</span>，这相当于传统决策树里面的剪枝处理——当左边的式子减去 <span class="math inline">\(\gamma\)</span>，也就是 <span class="math inline">\(Gain\)</span> 的值小于 0 时，则不考虑这个分割，也就是说当前结点就作为最终的叶子结点。在考虑每次分割的时候，我们还是要枚举所有可能的分割方案，如何高效枚举所有分割呢？</p>
+<p>算法1，贪心算法： <strong>输入</strong>：当前结点包含样例集合 <span class="math inline">\(I\)</span>；待划分属性 <span class="math inline">\(d\)</span></p>
+<ol style="list-style-type: decimal">
+<li><span class="math inline">\(Gain = 0\)</span>；</li>
+<li><span class="math inline">\(U = \displaystyle \sum_{i \in I}u_i, \quad V = \displaystyle \sum_{i \in I}v_i\)</span></li>
+<li>for <span class="math inline">\(k=1,2,\dots,K\)</span> do，也就是对第 <span class="math inline">\(k\)</span> 个待划分属性，执行</li>
+<li><span class="math inline">\(\quad\)</span> <span class="math inline">\(U_L = 0,V_L = 0\)</span></li>
+<li><span class="math inline">\(\quad\)</span> for <span class="math inline">\(j\)</span> in sorted( <span class="math inline">\(I\)</span> , by <span class="math inline">\(\boldsymbol x_{jk}\)</span>) do,也就是对于毎个根据第 <span class="math inline">\(k\)</span> 个属性进行属性值排序好的样例集合，执行：</li>
+<li><span class="math inline">\(\quad \quad\)</span> <span class="math inline">\(U_L = U_L + u_j, V_L = V_L + v_j\)</span></li>
+<li><span class="math inline">\(\quad \quad\)</span> <span class="math inline">\(U_R = U - U_L, V_R = V - V_L\)</span></li>
+<li><span class="math inline">\(\quad \quad\)</span> 得到打分值 <span class="math inline">\(score = max(score, Gain(U_L,U_R,G_L,G_R))\)</span></li>
+<li><span class="math inline">\(\quad\)</span> end for</li>
+<li>end for</li>
+</ol>
+<p><strong>输出</strong>：打分值最大的划分属性值</p>
+<div class="figure">
+<img src="/2018/04/01/集成学习/贪心算法示意图.jpg" alt="贪心算法示意图">
+<p class="caption">贪心算法示意图</p>
+</div>
+<p>算法2，近似算法——加权直方图近似算法：</p>
+<ol style="list-style-type: decimal">
+<li>for <span class="math inline">\(k = 1,2,\dots,K\)</span> do，也就是对于第 <span class="math inline">\(k\)</span> 个待划分属性，执行：</li>
+<li><span class="math inline">\(\quad\)</span> 令 <span class="math inline">\(S_k = \{ s_{k1},s_{k2},\dots,s_{kl} \}\)</span>，（后面有对应的说明）</li>
+<li>end for</li>
+<li>for <span class="math inline">\(k = 1,2,\dots,K\)</span> do</li>
+<li><span class="math inline">\(\quad\)</span> <span class="math inline">\(U_{ki} = \sum_{j \in \{j|s_{k,i} \geq \boldsymbol x_{jk} &gt; s_{k,i-1} \} } u_j\)</span></li>
+<li><span class="math inline">\(\quad\)</span> <span class="math inline">\(V_{ki} = \sum_{j \in \{j|s_{k,i} \geq \boldsymbol x_{jk} &gt; s_{k,i-1} \} } v_j\)</span></li>
+<li>end for</li>
+<li>依照前面的计算最大分值的方法找到最佳划分属性值</li>
+</ol>
+<p>对于加权分布直方图算法，如何得到 <span class="math inline">\(S_k\)</span> 呢？在这个算法中，它不会枚举所有的特征值，而是对特征值进行聚合统计，然后形成若干个桶。只将桶边界作为候选划分属性值，从而获得性能提升，具体如下：</p>
+<ol style="list-style-type: decimal">
+<li>对第 <span class="math inline">\(k\)</span> 个特征，构造数据集 <span class="math inline">\(D_k = \{(\boldsymbol x_{1k},v_1),(\boldsymbol x_{2k},v_2),\dots,(\boldsymbol x_{nk},v_n),\}\)</span>，其中 <span class="math inline">\(v_i\)</span> 对应损失函数的二阶梯度</li>
+<li>定义序函数为带权的序函数 <span class="math display">\[r_k(z) = \frac {\displaystyle \sum_{(\boldsymbol x, v) \in D_k, \boldsymbol x &lt; z}v}{\displaystyle \sum_{(\boldsymbol x,v) \in D_k}v}\]</span></li>
+<li>上式代表第 <span class="math inline">\(k\)</span> 个特征小于 <span class="math inline">\(z\)</span> 的样本比例</li>
+<li>候选集的目标要使得相邻的两个候选分裂节点相差不超过阈值 <span class="math inline">\(\epsilon\)</span> <span class="math display">\[|r_k(s_{k,j}) - r_k(s_{k,j+1})| &lt; \epsilon, s_{k1} = \min_i \boldsymbol x_{ik}, s_{k_l} = \max_i \boldsymbol x_{ik}\]</span></li>
+</ol>
+<p>另外还有<strong>处理稀疏特征分裂方法</strong>详细移步算法原论文 <a href="https://arxiv.org/pdf/1603.02754.pdf" target="_blank" rel="noopener">XGBoost: A Scalable Tree Boosting System</a></p>
+<p>XGBT的特点：</p>
+<ol style="list-style-type: decimal">
+<li>GBDT以CART决策树作为基分类器，XGBT还支持线性分类器，此时XGBT相当于带正则化项的逻辑回归或线性回归问题；</li>
+<li>GBDT只用到了一阶导数，XGBT则用到了泰勒二阶展开；</li>
+<li>XGBT加入了正则化，可以防止过拟合；</li>
+<li>原论文中还提到了 shrinkage and column subsampling（前者相当于控制学习速率，后者是列（特征）抽样），也是一种很好的防止过拟合的手段；</li>
+<li>计算划分属性值的贪心算法和近似算法，后者还可以结合分布式加权直方图算法，提高了计算效率，后两者还能在超大数据集上进行分布式训练（解决内存不足问题）；</li>
+<li>原文还提到了对缺失值处理，可以自动学习出缺失值的分裂方向；</li>
+<li>XGBT支持在选择最佳划分属性及最佳划分属性值的时候并行化。</li>
+</ol>
+<p>个人觉得，XGBT是传统决策树算法的集大成者，囊括了众多先行者的优点于一身，性能想不出众都不得行。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+      <div>
+        <div id="wechat_subscriber" style="display: block; padding: 10px 0; margin: 20px auto; width: 100%; text-align: center">
+    <img id="wechat_subscriber_qcode" src="/uploads/mmqrcode.png" alt="流粼 wechat" style="width: 200px; max-width: 100%;"/>
+    <div>欢迎扫一扫我的微信号，一起讨论学术，畅谈人生 ^_^ <br>点击下方或左下角分享按钮分享到社交网站</div>
+</div>
+
+      </div>
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+        <div class="post-widgets">
+        
+
+        
+
+        
+          
+          <div id="needsharebutton-postbottom">
+            <span class="btn">
+              <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </span>
+          </div>
+        
+        </div>
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/03/29/支持向量机/" rel="next" title="支持向量机">
+                <i class="fa fa-chevron-left"></i> 支持向量机
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8zNTMwMi8xMTgzOA=="></div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="http://www.sfs-cn.com/node3/node924/node27495/node27496/images/00236093.jpg"
+                alt="流粼" />
+            
+              <p class="site-author-name" itemprop="name">流粼</p>
+              <p class="site-description motion-element" itemprop="description">学习笔记、读书笔记、生活感悟</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/Liulinyun" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:liulinyun-oo@foxmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#集成学习"><span class="nav-number">1.</span> <span class="nav-text">集成学习</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#一.-adaboost"><span class="nav-number">1.1.</span> <span class="nav-text">一. AdaBoost</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二.-bagging"><span class="nav-number">1.2.</span> <span class="nav-text">二. Bagging</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#三.-随机森林rf"><span class="nav-number">1.3.</span> <span class="nav-text">三. 随机森林（RF）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#四.-gbdt梯度提升树"><span class="nav-number">1.4.</span> <span class="nav-text">四. GBDT（梯度提升树）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#gbdt的负梯度拟合"><span class="nav-number">1.4.1.</span> <span class="nav-text">GBDT的负梯度拟合</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实际使用的梯度提升树"><span class="nav-number">1.4.2.</span> <span class="nav-text">实际使用的梯度提升树</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#gbdt常用损失函数"><span class="nav-number">1.4.3.</span> <span class="nav-text">GBDT常用损失函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#gbdt的正则化"><span class="nav-number">1.4.4.</span> <span class="nav-text">GBDT的正则化</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#五.-xgboostxgbt"><span class="nav-number">1.5.</span> <span class="nav-text">五. XGBoost（XGBT）</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">流粼</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+      <div id="needsharebutton-float">
+        <span class="btn">
+          <i class="fa fa-share-alt" aria-hidden="true"></i>
+        </span>
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/three/three.min.js"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/three/canvas_lines.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+  
+  <link rel="stylesheet" href="/lib/needsharebutton/needsharebutton.css">
+
+  
+  
+  <script src="/lib/needsharebutton/needsharebutton.js"></script>
+
+  <script>
+    
+      pbOptions = {};
+      
+          pbOptions.iconStyle = "box";
+      
+          pbOptions.boxForm = "horizontal";
+      
+          pbOptions.position = "bottomCenter";
+      
+          pbOptions.networks = "Weibo,Wechat,Douban,QQZone,Twitter,Linkedin,Mailto,Facebook,GooglePlus,Tumblr,GoogleBookmarks,Evernote";
+      
+      new needShareButton('#needsharebutton-postbottom', pbOptions);
+    
+    
+      flOptions = {};
+      
+          flOptions.iconStyle = "box";
+      
+          flOptions.boxForm = "horizontal";
+      
+          flOptions.position = "topRight";
+      
+          flOptions.networks = "Weibo,Wechat,Douban,QQZone,Twitter,Linkedin,Mailto,Facebook,GooglePlus,Tumblr,GoogleBookmarks,Evernote";
+      
+      new needShareButton('#needsharebutton-float', flOptions);
+    
+  </script>
+
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>
